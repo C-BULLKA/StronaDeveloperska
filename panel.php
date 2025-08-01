@@ -43,7 +43,7 @@
                     <div class="form-section">
                         <h2>Dodaj nowe ogłoszenie</h2>
                         <?php if(isset($_GET['success'])): ?>
-                            <p style="color: green; font-weight: bold; text-align: center; margin-bottom: 20px;">Ogłoszenie zostało pomyślnie dodane!</p>
+                            <p class="success-message">Ogłoszenie zostało pomyślnie dodane!</p>
                         <?php endif; ?>
                         <form action="dodaj_ogloszenia.php" method="POST" enctype="multipart/form-data" class="add-listing-form">
                             <input type="text" name="title" placeholder="Tytuł ogłoszenia" required>
@@ -86,12 +86,12 @@
                         </form>
                     </div>
                 <?php else: ?>
-                    <div style="max-width: 400px; margin: 40px auto; padding: 40px; background-color: var(--color-gray); border-radius: 8px; text-align: center;">
+                    <div class="login-box">
                         <h2>Logowanie do panelu</h2>
-                        <form action="weryfikacja.php" method="POST">
-                            <input type="password" name="password" placeholder="Wprowadź hasło" required style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                        <form action="weryfikacja.php" method="POST" class="login-form">
+                            <input type="password" name="password" placeholder="Wprowadź hasło" required>
                             <?php if(isset($_GET['error'])): ?>
-                                <p style="color: red; margin-bottom: 15px;">Nieprawidłowe hasło.</p>
+                                <p class="error-message">Nieprawidłowe hasło.</p>
                             <?php endif; ?>
                             <button type="submit" class="btn btn-primary">Zaloguj się</button>
                         </form>
@@ -104,7 +104,9 @@
                 <h2>Skontaktuj się z nami</h2>
                 <form class="contact-form">
                     <input type="text" placeholder="Imię" required>
-                    <input type="email" placeholder="E-mail" required>
+                    <input type="email" placeholder="E ​
+
+-mail" required>
                     <textarea placeholder="Twoja wiadomość" rows="5"></textarea>
                     <button type="submit" class="btn btn-primary">Wyślij</button>
                 </form>

@@ -30,7 +30,47 @@ document.addEventListener('DOMContentLoaded', function() {
     }, observerOptions);
     sections.forEach(section => { observer.observe(section); });
 
-    // --- 3. Logika okna modalnego (szczegóły ogłoszenia) ---
+    // --- 3. Mapa główna na stronie index.html ---
+    const cityMapContainer = document.getElementById('cityMap');
+    if (cityMapContainer) {
+        try {
+            // Współrzędne dla Tarnowa
+            const tarnowLat = 50.0129;
+            const tarnowLng = 20.9847;
+            
+            const cityMap = L.map('cityMap').setView([tarnowLat, tarnowLng], 14);
+            
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(cityMap);
+
+            // Główny marker dla inwestycji
+            L.marker([tarnowLat, tarnowLng])
+                .addTo(cityMap)
+                .bindPopup('<b>TarnowskiDeveloper</b><br>Nowoczesne apartamenty')
+                .openPopup();
+
+            // Dodatkowe markery dla udogodnień
+            const amenities = [
+                { lat: 50.0135, lng: 20.9853, name: 'Sklepy', icon: '🛒' },
+                { lat: 50.0125, lng: 20.9842, name: 'Park', icon: '🌳' },
+                { lat: 50.0140, lng: 20.9860, name: 'Szkoła', icon: '🏫' },
+                { lat: 50.0120, lng: 20.9835, name: 'Przychodnia', icon: '🏥' }
+            ];
+
+            amenities.forEach(amenity => {
+                L.marker([amenity.lat, amenity.lng])
+                    .addTo(cityMap)
+                    .bindPopup(`<b>${amenity.icon} ${amenity.name}</b>`);
+            });
+
+        } catch (error) {
+            console.error('Błąd przy inicjalizacji głównej mapy:', error);
+            cityMapContainer.innerHTML = '<p style="text-align:center; padding: 40px; color: #666;">Błąd ładowania mapy. Sprawdź połączenie internetowe.</p>';
+        }
+    }
+
+    // --- 4. Logika okna modalnego (szczegóły ogłoszenia) ---
     const modal = document.getElementById('ad-modal');
     if (modal) {
         const listingsGrid = document.querySelector('.listings-grid');
@@ -41,70 +81,125 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let currentImages = [];
         let currentImageIndex = 0;
-        let map = null;
+        let modalMap = null;
 
-        const initializeMap = async (address) => {
+        const initializeModalMap = async (address) => {
             const mapContainer = document.getElementById('map');
             if (!mapContainer) return;
 
             mapContainer.innerHTML = ''; 
 
-            if (map) { map.remove(); map = null; }
-            if (!address) {
+            if (modalMap) { 
+                modalMap.remove(); 
+                modalMap = null; 
+            }
+            
+            if (!address || address.trim() === '') {
                 mapContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Brak adresu do wyświetlenia na mapie.</p>';
                 return;
             }
+
+            // Pokazuj loader podczas ładowania
+            mapContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Ładowanie mapy...</p>';
+            
             const apiUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json&limit=1`;
+            
             try {
                 const response = await fetch(apiUrl, {
                     headers: { 'User-Agent': 'TarnowskiDeveloper/1.0 (contact@example.com)' }
                 });
+                
                 if (!response.ok) {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
+                
                 const data = await response.json();
+                
                 if (data && data.length > 0) {
                     const { lat, lon } = data[0];
-                    map = L.map('map').setView([lat, lon], 16);
+                    
+                    // Wyczyść container przed utworzeniem mapy
+                    mapContainer.innerHTML = '';
+                    
+                    modalMap = L.map('map').setView([lat, lon], 16);
+                    
                     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    }).addTo(map);
-                    L.marker([lat, lon]).addTo(map).bindPopup(`<b>${address}</b>`).openPopup();
-                    setTimeout(() => map.invalidateSize(), 100);
+                    }).addTo(modalMap);
+                    
+                    L.marker([lat, lon])
+                        .addTo(modalMap)
+                        .bindPopup(`<b>${address}</b>`)
+                        .openPopup();
+                    
+                    // Wymuszenie odświeżenia rozmiaru mapy
+                    setTimeout(() => {
+                        if (modalMap) {
+                            modalMap.invalidateSize();
+                        }
+                    }, 100);
+                    
                 } else {
                     mapContainer.innerHTML = `<p style="text-align:center; padding: 20px;">Nie znaleziono lokalizacji dla adresu: ${address}</p>`;
                 }
             } catch (error) {
                 console.error('Błąd mapy modalnej:', error);
-                mapContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Błąd ładowania mapy. Sprawdź konsolę.</p>';
+                mapContainer.innerHTML = '<p style="text-align:center; padding: 20px;">Błąd ładowania mapy. Sprawdź połączenie internetowe.</p>';
             }
         };
 
         const showModal = (data) => {
-            document.getElementById('modal-title').textContent = data.title;
-            document.getElementById('modal-location').textContent = data.location;
-            document.getElementById('modal-price').textContent = data.price;
-            document.getElementById('modal-rooms').textContent = data.rooms;
-            document.getElementById('modal-area').textContent = data.area;
-            document.getElementById('modal-description').textContent = data.description;
+            document.getElementById('modal-title').textContent = data.title || 'Brak tytułu';
+            document.getElementById('modal-location').textContent = data.location || 'Brak lokalizacji';
+            document.getElementById('modal-price').textContent = data.price || '0 PLN';
+            document.getElementById('modal-rooms').textContent = data.rooms || '?';
+            document.getElementById('modal-area').textContent = data.area || '?';
+            document.getElementById('modal-description').textContent = data.description || 'Brak opisu';
             
-            // Nowa logika do wyświetlania udogodnień
+            // Obsługa features
             const featuresContainer = document.getElementById('modal-features');
-            featuresContainer.innerHTML = ''; // Wyczyść stare udogodnienia
+            featuresContainer.innerHTML = '';
             
-            if (data.features) {
-                const features = data.features.split(',').map(f => f.trim());
+            if (data.features && data.features.trim() !== '') {
+                const features = data.features.split(',').map(f => f.trim()).filter(f => f !== '');
+                
+                const feature_labels = {
+                    'furnished': '<i class="fas fa-couch"></i> Umeblowane',
+                    'developer_condition': '<i class="fas fa-paint-roller"></i> Stan developerski',
+                    'internet': '<i class="fas fa-wifi"></i> Szybki internet',
+                    'energy_efficient': '<i class="fas fa-leaf"></i> Energooszczędne',
+                    'near_shops': '<i class="fas fa-shopping-bag"></i> Blisko sklepy',
+                    'near_transport': '<i class="fas fa-bus"></i> Blisko komunikacja',
+                    'quiet': '<i class="fas fa-volume-mute"></i> Cicha okolica',
+                    'near_schools': '<i class="fas fa-school"></i> Blisko szkoły',
+                    'near_parks': '<i class="fas fa-tree"></i> Blisko parki',
+                    'parking': '<i class="fas fa-parking"></i> Miejsce parkingowe',
+                    'balcony': '<i class="fas fa-door-open"></i> Balkon',
+                    'elevator': '<i class="fas fa-elevator"></i> Winda',
+                    'gym': '<i class="fas fa-dumbbell"></i> Siłownia',
+                    'pool': '<i class="fas fa-swimming-pool"></i> Basen',
+                    'pet_friendly': '<i class="fas fa-paw"></i> Przyjazne zwierzętom',
+                    'security': '<i class="fas fa-shield-alt"></i> System bezpieczeństwa'
+                };
+
                 features.forEach(feature => {
-                    if (feature) {
+                    if (feature && feature_labels[feature]) {
                         const badge = document.createElement('span');
                         badge.className = 'feature-badge';
-                        badge.textContent = feature;
+                        badge.innerHTML = feature_labels[feature];
                         featuresContainer.appendChild(badge);
                     }
                 });
             }
 
-            currentImages = JSON.parse(data.images);
+            // Obsługa zdjęć
+            try {
+                currentImages = JSON.parse(data.images || '[]');
+            } catch (e) {
+                console.error('Błąd parsowania zdjęć:', e);
+                currentImages = [];
+            }
+            
             currentImageIndex = 0;
             updateModalImage();
             
@@ -113,29 +208,39 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.style.opacity = '1';
                 modal.querySelector('.modal-content').style.transform = 'scale(1)';
                 
-                const mapContainer = document.getElementById('map');
-                if (mapContainer) {
-                    initializeMap(data.address);
-                }
+                // Inicjalizacja mapy po pokazaniu modala
+                initializeModalMap(data.address);
             }, 10);
         };
 
         const hideModal = () => {
-            if (map) { map.remove(); map = null; }
+            if (modalMap) { 
+                modalMap.remove(); 
+                modalMap = null; 
+            }
             modal.style.opacity = '0';
             modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
             setTimeout(() => {
                 modal.style.display = 'none';
-                document.getElementById('map').innerHTML = '';
+                const mapContainer = document.getElementById('map');
+                if (mapContainer) {
+                    mapContainer.innerHTML = '';
+                }
             }, 300);
         };
 
         const updateModalImage = () => {
             if (currentImages.length > 0) {
                 modalImage.src = currentImages[currentImageIndex];
+                modalImage.style.display = 'block';
+            } else {
+                modalImage.src = 'https://via.placeholder.com/400x250.png?text=Brak+zdj%C4%99cia';
+                modalImage.style.display = 'block';
             }
-            prevImageBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
-            nextImageBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+            
+            // Pokazuj/ukrywaj strzałki nawigacji
+            if (prevImageBtn) prevImageBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
+            if (nextImageBtn) nextImageBtn.style.display = currentImages.length > 1 ? 'block' : 'none';
         };
 
         const showNextImage = () => {
@@ -152,53 +257,94 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
+        // Event listenery
         if (listingsGrid) {
             listingsGrid.addEventListener('click', function(e) {
                 let targetElement = e.target;
-                if (targetElement.nodeType !== Node.ELEMENT_NODE) {
+                
+                // Znajdź przycisk "Zobacz szczegóły"
+                while (targetElement && !targetElement.classList.contains('btn-details')) {
                     targetElement = targetElement.parentElement;
+                    if (targetElement === listingsGrid) break;
                 }
-                const detailsButton = targetElement.closest('.btn-details');
-                if (detailsButton) {
+                
+                if (targetElement && targetElement.classList.contains('btn-details')) {
                     e.preventDefault();
-                    showModal(detailsButton.dataset);
+                    showModal(targetElement.dataset);
                 }
             });
         }
-        closeModalBtn.addEventListener('click', hideModal);
+
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', hideModal);
+        }
+
         modal.addEventListener('click', function(e) {
             if (e.target === modal) hideModal();
         });
+
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && modal.style.display === 'flex') hideModal();
-        });
-        nextImageBtn.addEventListener('click', showNextImage);
-        prevImageBtn.addEventListener('click', showPrevImage);
-    }
-    
-    // --- 4. Logika dla powiększania zdjęcia (Lightbox) ---
-    const lightbox = document.getElementById('image-lightbox');
-    if (lightbox) {
-        const modalImage = document.getElementById('modal-main-image');
-        const lightboxImage = document.getElementById('lightbox-image');
-        const lightboxCloseBtn = lightbox.querySelector('.lightbox-close-btn');
-
-        const openLightbox = () => {
-            lightboxImage.src = modalImage.src;
-            lightbox.classList.add('visible');
-        };
-
-        const closeLightbox = () => {
-            lightbox.classList.remove('visible');
-        };
-
-        modalImage.addEventListener('click', openLightbox);
-        lightboxCloseBtn.addEventListener('click', closeLightbox);
-        lightbox.addEventListener('click', function(e) {
-            if (e.target === lightbox) {
-                closeLightbox();
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                hideModal();
             }
         });
-    }
 
+        if (nextImageBtn) {
+            nextImageBtn.addEventListener('click', showNextImage);
+        }
+        
+        if (prevImageBtn) {
+            prevImageBtn.addEventListener('click', showPrevImage);
+        }
+
+        // --- 5. Funkcja powiększania zdjęć (Lightbox) ---
+        if (modalImage) {
+            modalImage.addEventListener('click', function() {
+                // Tworzymy lightbox dynamicznie jeśli nie istnieje
+                let lightbox = document.getElementById('image-lightbox');
+                
+                if (!lightbox) {
+                    lightbox = document.createElement('div');
+                    lightbox.id = 'image-lightbox';
+                    lightbox.className = 'lightbox-overlay';
+                    lightbox.innerHTML = `
+                        <img id="lightbox-image" src="" alt="Powiększone zdjęcie">
+                        <button class="lightbox-close-btn">&times;</button>
+                    `;
+                    document.body.appendChild(lightbox);
+                }
+
+                const lightboxImage = lightbox.querySelector('#lightbox-image');
+                const lightboxCloseBtn = lightbox.querySelector('.lightbox-close-btn');
+
+                // Ustaw źródło zdjęcia
+                lightboxImage.src = modalImage.src;
+                
+                // Pokaż lightbox
+                lightbox.classList.add('visible');
+
+                // Event listenery dla zamykania
+                const closeLightbox = () => {
+                    lightbox.classList.remove('visible');
+                };
+
+                lightboxCloseBtn.onclick = closeLightbox;
+                
+                lightbox.onclick = function(e) {
+                    if (e.target === lightbox) {
+                        closeLightbox();
+                    }
+                };
+
+                // Zamykanie na ESC
+                const handleEscKey = (e) => {
+                    if (e.key === 'Escape') {
+                        closeLightbox();
+                        document.removeEventListener('keydown', handleEscKey);
+                    }
+                };
+                document.addEventListener('keydown', handleEscKey);
+            });
+        }
+    }
 });

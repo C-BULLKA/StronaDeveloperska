@@ -3,121 +3,780 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TarnowskiDeveloper</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <title>TarnowskiDeveloper - Deweloper Małopolski</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #B87333;
+            --dark-navy: #1a1a1a;
+            --light-gray: #f8f9fa;
+            --medium-gray: #6a6a6a;
+            --white: #ffffff;
+            --shadow-light: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-medium: 0 8px 30px rgba(0,0,0,0.12);
+            --gradient-overlay: linear-gradient(135deg, rgba(26,26,26,0.8), rgba(184,115,51,0.6));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-navy);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255,255,255,0.98);
+            box-shadow: var(--shadow-light);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-navy);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--dark-navy);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-gold);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #a0642a;
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: var(--gradient-overlay), url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-gold);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--primary-gold);
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--dark-navy);
+            transform: translateY(-3px);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--white);
+            padding: 5rem 0;
+        }
+
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--medium-gray);
+        }
+
+        /* Current Investments Section */
+        .investments {
+            background: var(--light-gray);
+            padding: 8rem 0;
+        }
+
+        .investments-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 5rem;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: var(--dark-navy);
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+
+        .investments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+        }
+
+        .investment-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .investment-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .investment-image {
+            height: 280px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .investment-status {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: var(--primary-gold);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .investment-content {
+            padding: 2.5rem;
+        }
+
+        .investment-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            color: var(--dark-navy);
+        }
+
+        .investment-location {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--medium-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .investment-features {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .investment-feature {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        .investment-feature strong {
+            color: var(--dark-navy);
+            font-weight: 600;
+        }
+
+        .investment-link {
+            background: var(--dark-navy);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .investment-link:hover {
+            background: var(--primary-gold);
+            transform: translateX(5px);
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+            padding: 8rem 0;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            color: var(--dark-navy);
+        }
+
+        .about-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--medium-gray);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-image {
+            height: 500px;
+            background: url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80') center/cover;
+            border-radius: 16px;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--dark-navy);
+            color: white;
+            padding: 8rem 0;
+        }
+
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact p {
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            opacity: 0.8;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .contact-form textarea {
+            grid-column: 1 / -1;
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            background: var(--primary-gold);
+            color: white;
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            justify-self: center;
+        }
+
+        .submit-btn:hover {
+            background: #a0642a;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #0f0f0f;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .investments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <a href="index.html" class="logo">TarnowskiDeveloper</a>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#about">O Inwestycji</a></li>
-                    <li><a href="#location">Lokalizacja</a></li>
-                    <li><a href="ogloszenia.php">Ogłoszenia</a></li>
-                    <li><a href="panel.php">Panel Admina</a></li>
-                    <li><a href="#contact" class="btn btn-accent">Kontakt</a></li>
-                </ul>
-            </nav>
-        </div>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">TarnowskiDeveloper</a>
+            <ul class="nav-menu">
+                <li><a href="#about" class="nav-link">O nas</a></li>
+                <li><a href="#investments" class="nav-link">Inwestycje</a></li>
+                <li><a href="ogloszenia.php" class="nav-link">Ogłoszenia</a></li>
+                <li><a href="#contact" class="nav-link">Kontakt</a></li>
+                <li><a href="panel.php" class="cta-button">Panel</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <div class="container">
-                <h1>Twoja Przestrzeń. Twoje Miasto.</h1>
-                <p>Nowoczesne apartamenty w małopolskim biegunie ciepła.</p>
-                <a href="ogloszenia.php" class="btn btn-primary">Zobacz Ofertę</a>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Tworzymy przestrzenie marzeń</h1>
+            <p>Nowoczesne inwestycje mieszkaniowe w sercu Małopolski. Odkryj swoje idealne miejsce do życia.</p>
+            <div class="hero-buttons">
+                <a href="#investments" class="btn-primary">Zobacz inwestycje</a>
+                <a href="#contact" class="btn-secondary">Skontaktuj się</a>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="about" class="content-section">
-            <div class="container grid-2">
-                <div>
-                    <h2>Zaprojektowane z myślą o Tobie</h2>
-                    <p>Nasza inwestycja to połączenie minimalistycznej architektury i funkcjonalności. Stworzyliśmy miejsce, w którym odnajdziesz spokój bez rezygnacji z miejskich udogodnień. Wysoka jakość materiałów i dbałość o detale to nasz priorytet.</p>
-                </div>
-                <div class="column-img">
-                    <img src="https://via.placeholder.com/500x300.png?text=Wizualizacja" alt="Wizualizacja inwestycji">
-                </div>
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item fade-in-up">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Lat doświadczenia</div>
             </div>
-        </section>
-
-        <section class="features-section">
-            <div class="container grid-3">
-                <div>
-                    <h3>Blisko Natury</h3>
-                    <p>Parki i tereny rekreacyjne w zasięgu kilku minut spacerem.</p>
-                </div>
-                <div>
-                    <h3>Nowoczesny Design</h3>
-                    <p>Ponadczasowa bryła budynku i przemyślane układy mieszkań.</p>
-                </div>
-                <div>
-                    <h3>Doskonała Lokalizacja</h3>
-                    <p>Szybki dojazd do centrum i pełna infrastruktura na miejscu.</p>
-                </div>
+            <div class="stat-item fade-in-up">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Zrealizowanych projektów</div>
             </div>
-        </section>
+            <div class="stat-item fade-in-up">
+                <div class="stat-number">1200+</div>
+                <div class="stat-label">Zadowolonych klientów</div>
+            </div>
+            <div class="stat-item fade-in-up">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Nagród branżowych</div>
+            </div>
+        </div>
+    </section>
 
-        <section class="content-section">
-            <div class="container">
-                <h2>Wybierz swoje mieszkanie</h2>
-                <div class="apartment-list">
-                    <div class="apartment-card">
-                        <h4>3 Pokoje</h4>
-                        <p>65 m² | Piętro 2</p>
-                        <p class="status-available">Dostępne</p>
-                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+    <!-- Current Investments -->
+    <section class="investments" id="investments">
+        <div class="investments-container">
+            <div class="section-header">
+                <h2 class="section-title">Aktualne inwestycje</h2>
+                <p class="section-subtitle">Odkryj nasze najnowsze projekty mieszkaniowe, które łączą nowoczesny design z funkcjonalnością i wyjątkową lokalizacją.</p>
+            </div>
+            
+            <div class="investments-grid">
+                <!-- Inwestycja 1 -->
+                <div class="investment-card fade-in-up">
+                    <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                        <span class="investment-status">W sprzedaży</span>
                     </div>
-                    <div class="apartment-card">
-                        <h4>2 Pokoje</h4>
-                        <p>48 m² | Piętro 1</p>
-                        <p class="status-reserved">Zarezerwowane</p>
-                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+                    <div class="investment-content">
+                        <h3 class="investment-title">Osiedle Słoneczne</h3>
+                        <div class="investment-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Tarnów, ul. Krakowska</span>
+                        </div>
+                        <div class="investment-features">
+                            <div class="investment-feature">
+                                <strong>45</strong> mieszkań
+                            </div>
+                            <div class="investment-feature">
+                                <strong>2-4</strong> pokoje
+                            </div>
+                            <div class="investment-feature">
+                                <strong>35-85</strong> m²
+                            </div>
+                        </div>
+                        <a href="investments.html?id=sloneczne" class="investment-link">
+                            Zobacz szczegóły <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                        </a>
                     </div>
-                    <div class="apartment-card">
-                        <h4>4 Pokoje</h4>
-                        <p>82 m² | Piętro 3</p>
-                        <p class="status-available">Dostępne</p>
-                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+                </div>
+
+                <!-- Inwestycja 2 -->
+                <div class="investment-card fade-in-up">
+                    <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                        <span class="investment-status">Wkrótce</span>
+                    </div>
+                    <div class="investment-content">
+                        <h3 class="investment-title">Apartamenty Royal</h3>
+                        <div class="investment-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Tarnów, Centrum</span>
+                        </div>
+                        <div class="investment-features">
+                            <div class="investment-feature">
+                                <strong>32</strong> apartamentów
+                            </div>
+                            <div class="investment-feature">
+                                <strong>1-3</strong> pokoje
+                            </div>
+                            <div class="investment-feature">
+                                <strong>28-65</strong> m²
+                            </div>
+                        </div>
+                        <a href="investments.html?id=royal" class="investment-link">
+                            Zobacz szczegóły <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Inwestycja 3 -->
+                <div class="investment-card fade-in-up">
+                    <div class="investment-image" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80')">
+                        <span class="investment-status">Gotowe</span>
+                    </div>
+                    <div class="investment-content">
+                        <h3 class="investment-title">Villa Verde</h3>
+                        <div class="investment-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Tarnów, ul. Zielona</span>
+                        </div>
+                        <div class="investment-features">
+                            <div class="investment-feature">
+                                <strong>24</strong> mieszkania
+                            </div>
+                            <div class="investment-feature">
+                                <strong>3-5</strong> pokoi
+                            </div>
+                            <div class="investment-feature">
+                                <strong>65-120</strong> m²
+                            </div>
+                        </div>
+                        <a href="investments.html?id=verde" class="investment-link">
+                            Zobacz szczegóły <i class="fas fa-arrow-right" style="margin-left: 0.5rem;"></i>
+                        </a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="location" class="location-section visible">
-            <div class="container">
-                <h2>Idealna lokalizacja</h2>
-                <p>Wszystko, czego potrzebujesz, jest w zasięgu ręki.</p>
-                <div id="cityMap"></div>
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="about-container">
+            <div class="about-content fade-in-up">
+                <h2>Ponad 15 lat doświadczenia</h2>
+                <p>TarnowskiDeveloper to firma deweloperska z tradycjami, która od ponad 15 lat tworzy wyjątkowe przestrzenie mieszkaniowe w Małopolsce.</p>
+                <p>Specjalizujemy się w projektowaniu i budowie nowoczesnych osiedli mieszkaniowych, które łączą funkcjonalność z estetyką. Nasze inwestycje wyróżniają się wysoką jakością wykonania i przemyślaną architekturą.</p>
+                <p>Stawiamy na zrównoważony rozwój i wykorzystujemy najnowsze technologie budowlane, aby zapewnić naszym klientom komfort i bezpieczeństwo na lata.</p>
             </div>
-        </section>
+            <div class="about-image fade-in-up"></div>
+        </div>
+    </section>
 
-        <section id="contact" class="contact-section">
-            <div class="container">
-                <h2>Skontaktuj się z nami</h2>
-                <form class="contact-form">
-                    <input type="text" placeholder="Imię" required>
-                    <input type="email" placeholder="E-mail" required>
-                    <textarea placeholder="Twoja wiadomość" rows="5"></textarea>
-                    <button type="submit" class="btn btn-primary">Wyślij</button>
-                </form>
-            </div>
-        </section>
-    </main>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <h2>Skontaktuj się z nami</h2>
+            <p>Masz pytania o nasze inwestycje? Chcesz umówić się na prezentację? Napisz do nas!</p>
+            
+            <form class="contact-form">
+                <div class="form-group">
+                    <input type="text" placeholder="Imię i nazwisko" required>
+                    <input type="email" placeholder="Adres e-mail" required>
+                </div>
+                <div class="form-group">
+                    <input type="tel" placeholder="Numer telefonu" required>
+                    <input type="text" placeholder="Interesująca inwestycja">
+                </div>
+                <textarea placeholder="Twoja wiadomość" required></textarea>
+                <button type="submit" class="submit-btn">Wyślij wiadomość</button>
+            </form>
+        </div>
+    </section>
 
-    <footer class="main-footer">
-        <div class="container">
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="nav-container">
             <p>&copy; 2025 TarnowskiDeveloper. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="script.js"></script>
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in-up elements
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(el);
+        });
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
