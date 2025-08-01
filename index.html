@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TarnowskiDeveloper</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">TarnowskiDeveloper</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#about">O Inwestycji</a></li>
+                    <li><a href="#location">Lokalizacja</a></li>
+                    <li><a href="ogloszenia.php">Ogłoszenia</a></li>
+                    <li><a href="panel.php">Panel Admina</a></li>
+                    <li><a href="#contact" class="btn btn-accent">Kontakt</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <h1>Twoja Przestrzeń. Twoje Miasto.</h1>
+                <p>Nowoczesne apartamenty w małopolskim biegunie ciepła.</p>
+                <a href="ogloszenia.php" class="btn btn-primary">Zobacz Ofertę</a>
+            </div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="container grid-2">
+                <div>
+                    <h2>Zaprojektowane z myślą o Tobie</h2>
+                    <p>Nasza inwestycja to połączenie minimalistycznej architektury i funkcjonalności. Stworzyliśmy miejsce, w którym odnajdziesz spokój bez rezygnacji z miejskich udogodnień. Wysoka jakość materiałów i dbałość o detale to nasz priorytet.</p>
+                </div>
+                <div class="column-img">
+                    <img src="https://via.placeholder.com/500x300.png?text=Wizualizacja" alt="Wizualizacja inwestycji">
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container grid-3">
+                <div>
+                    <h3>Blisko Natury</h3>
+                    <p>Parki i tereny rekreacyjne w zasięgu kilku minut spacerem.</p>
+                </div>
+                <div>
+                    <h3>Nowoczesny Design</h3>
+                    <p>Ponadczasowa bryła budynku i przemyślane układy mieszkań.</p>
+                </div>
+                <div>
+                    <h3>Doskonała Lokalizacja</h3>
+                    <p>Szybki dojazd do centrum i pełna infrastruktura na miejscu.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2>Wybierz swoje mieszkanie</h2>
+                <div class="apartment-list">
+                    <div class="apartment-card">
+                        <h4>3 Pokoje</h4>
+                        <p>65 m² | Piętro 2</p>
+                        <p class="status-available">Dostępne</p>
+                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+                    </div>
+                    <div class="apartment-card">
+                        <h4>2 Pokoje</h4>
+                        <p>48 m² | Piętro 1</p>
+                        <p class="status-reserved">Zarezerwowane</p>
+                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+                    </div>
+                    <div class="apartment-card">
+                        <h4>4 Pokoje</h4>
+                        <p>82 m² | Piętro 3</p>
+                        <p class="status-available">Dostępne</p>
+                        <a href="#" class="btn btn-secondary">Zobacz Rzut</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="location" class="location-section visible">
+            <div class="container">
+                <h2>Idealna lokalizacja</h2>
+                <p>Wszystko, czego potrzebujesz, jest w zasięgu ręki.</p>
+                <div id="cityMap"></div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section">
+            <div class="container">
+                <h2>Skontaktuj się z nami</h2>
+                <form class="contact-form">
+                    <input type="text" placeholder="Imię" required>
+                    <input type="email" placeholder="E-mail" required>
+                    <textarea placeholder="Twoja wiadomość" rows="5"></textarea>
+                    <button type="submit" class="btn btn-primary">Wyślij</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 TarnowskiDeveloper. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
+</body>
+</html>

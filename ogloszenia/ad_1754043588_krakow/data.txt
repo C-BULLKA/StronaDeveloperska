@@ -1,0 +1,7 @@
+Tytuł: krakow
+Lokalizacja: Kraków
+Adres: Stary Gościniec 3, KRaków
+Cena: 20000000
+Pokoje: 10
+Powierzchnia: 150
+Opis: tutaj jest jakis opis

@@ -1,0 +1,7 @@
+Tytuł: cos
+Lokalizacja: Tarnów
+Adres: Malczewskiego 6
+Cena: 200000
+Pokoje: 4
+Powierzchnia: 55
+Opis: tutaj znajduje sie siedziba firmy marcus

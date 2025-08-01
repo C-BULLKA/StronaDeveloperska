@@ -1,0 +1,7 @@
+Tytuł: Gdansk
+Lokalizacja: Gdańsk
+Adres: Stolarzy 16, Gdańsk
+Cena: 999000
+Pokoje: 4
+Powierzchnia: 48
+Opis: Małe mieszkanie w centrum

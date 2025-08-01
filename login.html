@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logowanie - Panel Administracyjny</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+            max-width: 400px;
+            margin: 150px auto;
+            padding: 40px;
+            background-color: var(--color-gray);
+            border-radius: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="index.html" class="logo">TarnowskiDeveloper</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h2>Logowanie do panelu</h2>
+            <form action="weryfikacja.php" method="POST">
+                <input type="password" name="password" placeholder="Wprowadź hasło" required style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #ddd; border-radius: 5px;">
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Zaloguj się</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 TarnowskiDeveloper. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+</html>

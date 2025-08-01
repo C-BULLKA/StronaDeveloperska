@@ -1,0 +1,6 @@
+Tytuł: ssassa
+Lokalizacja: tarnow
+Cena: 123
+Pokoje: 4
+Powierzchnia: 44
+Opis: jakis opis tu sie znajduje

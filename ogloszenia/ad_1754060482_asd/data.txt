@@ -1,0 +1,8 @@
+Tytuł: asd
+Lokalizacja: Tarnów 
+Adres: Towarowa 14, Tarnów
+Cena: 120000
+Pokoje: 4
+Powierzchnia: 30
+Opis: cośtu jest
+Cechy: furnished, developer_condition, near_shops, elevator, quiet

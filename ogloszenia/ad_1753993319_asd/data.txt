@@ -1,0 +1,6 @@
+Tytuł: asd
+Lokalizacja: asd
+Cena: 1
+Pokoje: 1
+Powierzchnia: 1
+Opis: asd
