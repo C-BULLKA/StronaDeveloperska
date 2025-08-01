@@ -348,3 +348,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+// Funkcja ładująca statusy segmentów i generująca przyciski
+function loadSegmentStatuses() {
+    fetch('segment_status.json')
+        .then(response => response.json())
+        .then(data => {
+            // Aktualizuj przyciski dla każdego mieszkania
+            updateSegmentButtons('L1', data.L1);
+            updateSegmentButtons('L2', data.L2);
+        })
+        .catch(error => {
+            console.error('Błąd ładowania statusów:', error);
+        });
+}
+
+function updateSegmentButtons(apartmentId, statusData) {
+    const container = document.getElementById(`segment-buttons-${apartmentId}`);
+    if (!container) return;
+
+    container.innerHTML = ''; // Wyczyść kontener
+
+    // Dla każdego segmentu (B1, B2, B3, B4) utwórz przycisk
+    ['B1', 'B2', 'B3', 'B4'].forEach(segment => {
+        const status = statusData[segment] || 'available';
+        const button = document.createElement('button');
+        button.className = `btn-segment status-${status}`;
+        button.textContent = segment;
+        container.appendChild(button);
+    });
+}
+
+// Wywołaj funkcję ładującą statusy
+loadSegmentStatuses();

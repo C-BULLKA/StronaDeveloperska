@@ -1657,3 +1657,27 @@ section.visible {
         margin: 0 10px;
     }
 }
+/* Dodane style CSS */
+.investment-photos {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+    .investment-photos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.main-photo {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.3s ease;
+}
+
+.main-photo:hover {
+    transform: scale(1.02);
+}
