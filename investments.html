@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Osiedle Słoneczne - TarnowskiDeveloper</title>
+    <title>Osiedle Na Ścieżki - TarnowskiDeveloper</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
@@ -157,6 +157,19 @@
             color: var(--medium-gray);
             margin-bottom: 1.5rem;
         }
+        
+        .investment-photos {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .investment-photos img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+        }
 
         .features-list {
             display: grid;
@@ -220,6 +233,25 @@
             color: var(--dark-navy);
         }
 
+        /* PZT Section */
+        .pzt-section {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .pzt-section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .pzt-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow-medium);
+        }
+
         /* Apartments Section */
         .apartments-section {
             background: var(--light-gray);
@@ -278,8 +310,9 @@
 
         /* Apartments Grid */
         .apartments-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
             gap: 2rem;
         }
 
@@ -290,6 +323,8 @@
             box-shadow: var(--shadow-light);
             transition: all 0.3s ease;
             position: relative;
+            width: 100%;
+            max-width: 450px;
         }
 
         .apartment-card:hover {
@@ -297,11 +332,49 @@
             box-shadow: var(--shadow-medium);
         }
 
-        .apartment-image {
+        .apartment-image-container {
             height: 220px;
-            background-size: cover;
-            background-position: center;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .apartment-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+        
+        .apartment-image-container img.hidden {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+        }
+        
+        .image-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
         }
 
         .apartment-status {
@@ -313,6 +386,7 @@
             font-size: 0.85rem;
             font-weight: 600;
             color: white;
+            z-index: 10;
         }
 
         .status-available {
@@ -337,6 +411,7 @@
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
+            z-index: 10;
         }
 
         .apartment-content {
@@ -399,40 +474,23 @@
             display: flex;
             gap: 1rem;
         }
-
-        .btn-details {
+        
+        .btn-segment, .btn-apartment {
             flex: 1;
-            background: var(--dark-navy);
-            color: white;
-            padding: 1rem;
-            border: none;
+            padding: 0.8rem;
+            border: 2px solid var(--light-gray);
+            background: white;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
             text-align: center;
         }
 
-        .btn-details:hover {
-            background: var(--primary-gold);
-            transform: translateY(-2px);
-        }
-
-        .btn-contact {
-            background: transparent;
-            color: var(--primary-gold);
-            border: 2px solid var(--primary-gold);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-contact:hover {
+        .btn-segment:hover, .btn-apartment:hover {
             background: var(--primary-gold);
             color: white;
+            border-color: var(--primary-gold);
         }
 
         /* Contact Section */
@@ -505,6 +563,10 @@
                 gap: 2rem;
             }
 
+            .investment-photos {
+                grid-template-columns: 1fr;
+            }
+
             .apartments-grid {
                 grid-template-columns: 1fr;
             }
@@ -528,7 +590,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <nav class="nav-container">
             <a href="index.html" class="logo">TarnowskiDeveloper</a>
@@ -544,84 +605,48 @@
         </nav>
     </header>
 
-    <!-- Investment Hero -->
     <section class="investment-hero">
         <div class="hero-container">
-            <h1>Osiedle Słoneczne</h1>
-            <p>Nowoczesne mieszkania w zielonej części Tarnowa. Komfort życia w harmonii z naturą.</p>
+            <h1>Osiedle Na Ścieżki</h1>
+            <p>Nowoczesne mieszkania w Koszycach Wielkich. Komfort życia w harmonii z naturą.</p>
         </div>
     </section>
 
-    <!-- Investment Info -->
     <section class="investment-info">
         <div class="info-container">
             <div class="investment-details">
                 <h2>O inwestycji</h2>
-                <p>Osiedle Słoneczne to nowoczesny kompleks mieszkaniowy składający się z 45 funkcjonalnych mieszkań o powierzchni od 35 do 85 m². Projekt charakteryzuje się przemyślaną architekturą, która harmonijnie wpisuje się w otaczającą zieleń.</p>
+                <p>Osiedle Na Ścieżki to nowoczesny kompleks mieszkaniowy składający się z 8 funkcjonalnych mieszkań o powierzchni od 55,62 do 59,75 m². Projekt charakteryzuje się przemyślaną architekturą.</p>
                 
-                <p>Każde mieszkanie zostało zaprojektowane z myślą o maksymalnym wykorzystaniu przestrzeni i naturalnego światła. Wysokiej jakości materiały wykończeniowe oraz nowoczesne rozwiązania technologiczne gwarantują komfort na najwyższym poziomie.</p>
-
-                <div class="features-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <div>
-                            <strong>Parking podziemny</strong>
-                            <div style="font-size: 0.9rem; color: var(--medium-gray);">Miejsca postojowe w garażu</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-elevator"></i>
-                        </div>
-                        <div>
-                            <strong>Winda</strong>
-                            <div style="font-size: 0.9rem; color: var(--medium-gray);">Dostęp do wszystkich pięter</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div>
-                            <strong>Tereny zielone</strong>
-                            <div style="font-size: 0.9rem; color: var(--medium-gray);">Zagospodarowane otoczenie</div>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div>
-                            <strong>Monitoring</strong>
-                            <div style="font-size: 0.9rem; color: var(--medium-gray);">System bezpieczeństwa 24/7</div>
-                        </div>
-                    </div>
+                <p>Każde mieszkanie zostało zaprojektowane z myślą o maksymalnym wykorzystaniu przestrzeni i naturalnego światła. Wysokiej jakości materiały wykończeniowe oraz nowoczesne rozwiązania gwarantują komfort na najwyższym poziomie.</p>
+                
+                <div class="investment-photos">
+                    <img src="podstawowe_zdjęcia/K4.png" alt="Zdjęcie inwestycji 1">
+                    <img src="podstawowe_zdjęcia/K5.png" alt="Zdjęcie inwestycji 2">
                 </div>
             </div>
-
+        
             <div class="investment-stats">
                 <h3 class="stats-title">Informacje o inwestycji</h3>
                 <div class="stat-row">
                     <span class="stat-label">Lokalizacja</span>
-                    <span class="stat-value">Tarnów, ul. Krakowska</span>
+                    <span class="stat-value">Koszyce Wielkie, ul. Na Ścieżki</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Liczba mieszkań</span>
-                    <span class="stat-value">45</span>
+                    <span class="stat-value">8</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Liczba pięter</span>
-                    <span class="stat-value">4</span>
+                    <span class="stat-value">2</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Powierzchnia</span>
-                    <span class="stat-value">35-85 m²</span>
+                    <span class="stat-value">55,62 do 59,75 m²</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Pokoje</span>
-                    <span class="stat-value">2-4</span>
+                    <span class="stat-value">5-6</span>
                 </div>
                 <div class="stat-row">
                     <span class="stat-label">Status</span>
@@ -634,268 +659,192 @@
             </div>
         </div>
     </section>
+    
+    <section class="pzt-section">
+        <h2>Układ Mieszkań (PZT)</h2>
+        <img src="podstawowe_zdjęcia/PZT poprawione.jpg" alt="Plan Zagospodarowania Terenu">
+    </section>
 
-    <!-- Apartments Section -->
     <section class="apartments-section">
         <div class="apartments-container">
             <h2 class="section-title">Dostępne mieszkania</h2>
             <p class="section-subtitle">Wybierz mieszkanie idealne dla Ciebie. Każdy lokal można obejrzeć i poznać szczegóły techniczne.</p>
 
-            <!-- Filters -->
             <div class="apartments-filters">
                 <button class="filter-btn active" data-filter="all">Wszystkie</button>
-                <button class="filter-btn" data-filter="2">2 pokoje</button>
-                <button class="filter-btn" data-filter="3">3 pokoje</button>
-                <button class="filter-btn" data-filter="4">4 pokoje</button>
+                <button class="filter-btn" data-filter="5">5 pokoi</button>
+                <button class="filter-btn" data-filter="6">6 pokoi</button>
                 <button class="filter-btn" data-filter="available">Dostępne</button>
             </div>
 
-            <!-- Apartments Grid -->
             <div class="apartments-grid" id="apartmentsGrid">
-                <!-- Mieszkanie 1 -->
-                <div class="apartment-card" data-rooms="2" data-status="available">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
+                <div class="apartment-card" data-rooms="5" data-status="available">
+                    <div class="apartment-image-container">
+                        <img src="podstawowe_zdjęcia/parter_wiz.png" alt="Wizualizacja mieszkania L1">
+                        <img src="podstawowe_zdjęcia/parter2d.jpg" alt="Rzut 2D mieszkania L1" class="hidden">
+                        <div class="image-nav">
+                            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
                         <span class="apartment-status status-available">Dostępne</span>
-                        <span class="apartment-badge">A1</span>
+                        <span class="apartment-badge">L1</span>
                     </div>
                     <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 2-pokojowe</h3>
-                        <p class="apartment-floor">Parter • Balkony frontowy i tylny</p>
+                        <h3 class="apartment-title">Mieszkanie 5-pokojowe</h3>
+                        <p class="apartment-floor">Parter</p>
                         
                         <div class="apartment-specs">
                             <div class="spec-item">
-                                <div class="spec-value">2</div>
+                                <div class="spec-value">5</div>
                                 <div class="spec-label">pokoje</div>
                             </div>
                             <div class="spec-item">
-                                <div class="spec-value">48</div>
+                                <div class="spec-value">55.62</div>
                                 <div class="spec-label">m²</div>
                             </div>
+                            <div class="spec-item">
+                                <div class="spec-value">Parter</div>
+                                <div class="spec-label">piętro</div>
+                            </div>
+                        </div>
+
+                        <div class="apartment-price">550 000 PLN</div>
+                        <div class="price-per-sqm">9 888 PLN/m²</div>
+
+                        <div class="apartment-actions">
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                                <button class="btn-segment">B1</button>
+                                <button class="btn-segment">B2</button>
+                                <button class="btn-segment">B3</button>
+                                <button class="btn-segment">B4</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="apartment-card" data-rooms="6" data-status="available">
+                    <div class="apartment-image-container">
+                        <img src="podstawowe_zdjęcia/pietro_wiz.png" alt="Wizualizacja mieszkania L2">
+                        <img src="podstawowe_zdjęcia/pietro2d.jpg" alt="Rzut 2D mieszkania L2" class="hidden">
+                        <div class="image-nav">
+                            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <span class="apartment-status status-available">Dostępne</span>
+                        <span class="apartment-badge">L2</span>
+                    </div>
+                    <div class="apartment-content">
+                        <h3 class="apartment-title">Mieszkanie 6-pokojowe</h3>
+                        <p class="apartment-floor">Piętro</p>
+                        
+                        <div class="apartment-specs">
                             <div class="spec-item">
                                 <div class="spec-value">6</div>
-                                <div class="spec-label">m² balkon</div>
-                            </div>
-                        </div>
-
-                        <div class="apartment-price">450 000 PLN</div>
-                        <div class="price-per-sqm">9 375 PLN/m²</div>
-
-                        <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-a1" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('A1')">Kontakt</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mieszkanie 2 -->
-                <div class="apartment-card" data-rooms="3" data-status="available">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
-                        <span class="apartment-status status-available">Dostępne</span>
-                        <span class="apartment-badge">B2</span>
-                    </div>
-                    <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 3-pokojowe</h3>
-                        <p class="apartment-floor">I piętro • Balkon + loggia</p>
-                        
-                        <div class="apartment-specs">
-                            <div class="spec-item">
-                                <div class="spec-value">3</div>
                                 <div class="spec-label">pokoje</div>
                             </div>
                             <div class="spec-item">
-                                <div class="spec-value">65</div>
+                                <div class="spec-value">59.75</div>
                                 <div class="spec-label">m²</div>
                             </div>
                             <div class="spec-item">
-                                <div class="spec-value">12</div>
-                                <div class="spec-label">m² balkon</div>
+                                <div class="spec-value">1</div>
+                                <div class="spec-label">piętro</div>
                             </div>
                         </div>
 
-                        <div class="apartment-price">585 000 PLN</div>
-                        <div class="price-per-sqm">9 000 PLN/m²</div>
+                        <div class="apartment-price">600 000 PLN</div>
+                        <div class="price-per-sqm">10 042 PLN/m²</div>
 
                         <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-b2" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('B2')">Kontakt</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mieszkanie 3 -->
-                <div class="apartment-card" data-rooms="4" data-status="reserved">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
-                        <span class="apartment-status status-reserved">Rezerwacja</span>
-                        <span class="apartment-badge">C3</span>
-                    </div>
-                    <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 4-pokojowe</h3>
-                        <p class="apartment-floor">II piętro • Taras + balkon</p>
-                        
-                        <div class="apartment-specs">
-                            <div class="spec-item">
-                                <div class="spec-value">4</div>
-                                <div class="spec-label">pokoje</div>
+                            <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;">
+                                <button class="btn-segment">B1</button>
+                                <button class="btn-segment">B2</button>
+                                <button class="btn-segment">B3</button>
+                                <button class="btn-segment">B4</button>
                             </div>
-                            <div class="spec-item">
-                                <div class="spec-value">82</div>
-                                <div class="spec-label">m²</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">20</div>
-                                <div class="spec-label">m² taras</div>
-                            </div>
-                        </div>
-
-                        <div class="apartment-price">738 000 PLN</div>
-                        <div class="price-per-sqm">9 000 PLN/m²</div>
-
-                        <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-c3" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('C3')">Kontakt</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mieszkanie 4 -->
-                <div class="apartment-card" data-rooms="2" data-status="available">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
-                        <span class="apartment-status status-available">Dostępne</span>
-                        <span class="apartment-badge">D1</span>
-                    </div>
-                    <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 2-pokojowe</h3>
-                        <p class="apartment-floor">III piętro • Balkon narożny</p>
-                        
-                        <div class="apartment-specs">
-                            <div class="spec-item">
-                                <div class="spec-value">2</div>
-                                <div class="spec-label">pokoje</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">42</div>
-                                <div class="spec-label">m²</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">8</div>
-                                <div class="spec-label">m² balkon</div>
-                            </div>
-                        </div>
-
-                        <div class="apartment-price">420 000 PLN</div>
-                        <div class="price-per-sqm">10 000 PLN/m²</div>
-
-                        <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-d1" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('D1')">Kontakt</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mieszkanie 5 -->
-                <div class="apartment-card" data-rooms="3" data-status="available">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1560449752-b2c4156ff645?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
-                        <span class="apartment-status status-available">Dostępne</span>
-                        <span class="apartment-badge">E2</span>
-                    </div>
-                    <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 3-pokojowe</h3>
-                        <p class="apartment-floor">IV piętro • Penthouse z tarasem</p>
-                        
-                        <div class="apartment-specs">
-                            <div class="spec-item">
-                                <div class="spec-value">3</div>
-                                <div class="spec-label">pokoje</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">72</div>
-                                <div class="spec-label">m²</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">35</div>
-                                <div class="spec-label">m² taras</div>
-                            </div>
-                        </div>
-
-                        <div class="apartment-price">720 000 PLN</div>
-                        <div class="price-per-sqm">10 000 PLN/m²</div>
-
-                        <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-e2" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('E2')">Kontakt</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Mieszkanie 6 -->
-                <div class="apartment-card" data-rooms="4" data-status="sold">
-                    <div class="apartment-image" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80')">
-                        <span class="apartment-status status-sold">Sprzedane</span>
-                        <span class="apartment-badge">F4</span>
-                    </div>
-                    <div class="apartment-content">
-                        <h3 class="apartment-title">Mieszkanie 4-pokojowe</h3>
-                        <p class="apartment-floor">I piętro • Ogródek prywatny</p>
-                        
-                        <div class="apartment-specs">
-                            <div class="spec-item">
-                                <div class="spec-value">4</div>
-                                <div class="spec-label">pokoje</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">85</div>
-                                <div class="spec-label">m²</div>
-                            </div>
-                            <div class="spec-item">
-                                <div class="spec-value">20</div>
-                                <div class="spec-label">m² taras</div>
-                            </div>
-                        </div>
-
-                        <div class="apartment-price">738 000 PLN</div>
-                        <div class="price-per-sqm">9 000 PLN/m²</div>
-
-                        <div class="apartment-actions">
-                            <a href="mieszkanie.html?id=sloneczne-c3" class="btn-details">Zobacz szczegóły</a>
-                            <button class="btn-contact" onclick="openContactModal('C3')">Kontakt</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Contact Section -->
-<section class="contact-section">
-    <div class="contact-container">
-        <h2>Masz pytania? Skontaktuj się z nami</h2>
-        <p>Jesteśmy do Twojej dyspozycji od poniedziałku do piątku w godzinach 8:00-16:00</p>
-        
-        <div class="contact-info">
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-phone-alt"></i>
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2>Masz pytania? Skontaktuj się z nami</h2>
+            <p>Jesteśmy do Twojej dyspozycji od poniedziałku do piątku w godzinach 8:00-16:00</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h4>Telefon</h4>
+                    <p>+48 123 456 789</p>
                 </div>
-                <h4>Telefon</h4>
-                <p>+48 123 456 789</p>
-            </div>
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-envelope"></i>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>E-mail</h4>
+                    <p>kontakt@tarnowskideveloper.pl</p>
                 </div>
-                <h4>E-mail</h4>
-                <p>kontakt@tarnowskideveloper.pl</p>
-            </div>
-            <div class="contact-item">
-                <div class="contact-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <h4>Biuro sprzedaży</h4>
-                <p>ul. Krakowska 123, Tarnów</p>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const apartments = document.querySelectorAll('.apartment-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Deactivate all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Activate the clicked button
+                    button.classList.add('active');
+
+                    const filter = button.getAttribute('data-filter');
+
+                    apartments.forEach(apartment => {
+                        const rooms = apartment.getAttribute('data-rooms');
+                        const status = apartment.getAttribute('data-status');
+
+                        let show = false;
+                        if (filter === 'all') {
+                            show = true;
+                        } else if (filter === 'available' && status === 'available') {
+                            show = true;
+                        } else if (rooms === filter) {
+                            show = true;
+                        }
+
+                        apartment.style.display = show ? 'block' : 'none';
+                    });
+                });
+            });
+
+            // Image switching logic
+            const apartmentCards = document.querySelectorAll('.apartment-card');
+            apartmentCards.forEach(card => {
+                const images = card.querySelectorAll('.apartment-image-container img');
+                const prevBtn = card.querySelector('.prev-btn');
+                const nextBtn = card.querySelector('.next-btn');
+                let currentIndex = 0;
+
+                prevBtn.addEventListener('click', () => {
+                    images[currentIndex].classList.add('hidden');
+                    currentIndex = (currentIndex - 1 + images.length) % images.length;
+                    images[currentIndex].classList.remove('hidden');
+                });
+
+                nextBtn.addEventListener('click', () => {
+                    images[currentIndex].classList.add('hidden');
+                    currentIndex = (currentIndex + 1) % images.length;
+                    images[currentIndex].classList.remove('hidden');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
