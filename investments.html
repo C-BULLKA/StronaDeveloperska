@@ -34,6 +34,11 @@
         }
 
         /* Header */
+        .logo img {
+            height: 80px;
+            width: auto;
+            vertical-align: middle;
+        }
         .header {
             position: fixed;
             top: 0;
@@ -587,6 +592,12 @@
                 grid-template-columns: 1fr;
             }
         }
+        .footer {
+            background: #0f0f0f;
+            color: rgba(255,255,255,0.6);
+            text-align: center;
+            padding: 2rem 0;
+        }
 
         /* Dodane style dla przycisków segmentów */
         .btn-segment.status-available {
@@ -642,8 +653,10 @@
 <body>
     <header class="header">
         <nav class="nav-container">
-            <a href="index.html" class="logo">TarnowskiDeveloper</a>
-            <ul class="nav-menu">
+            <a href="index.html" class="logo">
+                <img src="podstawowe_zdjęcia/logo_Tarnowski.jpg" alt="Logo TarnowskiDeveloper">
+                DeveloperTarnów
+            </a> <ul class="nav-menu">
                 <li><a href="index.html#about" class="nav-link">O nas</a></li>
                 <li><a href="index.html#investments" class="nav-link">Inwestycje</a></li>
                 <li><a href="ogloszenia.php" class="nav-link">Ogłoszenia</a></li>
