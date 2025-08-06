@@ -25,11 +25,37 @@ body {
 }
 
 /* Header */
+.main-nav a {
+    position: relative;
+    font-family: var(--font-menu);
+    font-weight: 400;
+    color: var(--dark-navy);
+    text-decoration: none;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:not(.btn)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-gold);
+    transition: width 0.3s ease;
+}
+
+.main-nav a:not(.btn):hover::after {
+    width: 100%;
+}
+
 .logo img {
     height: 80px;
     width: auto;
     vertical-align: middle;
 }
+
 .header {
     position: fixed;
     top: 0;
@@ -69,11 +95,28 @@ body {
     text-decoration: none;
     color: var(--dark-navy);
     font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
     transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-gold);
+    transition: width 0.3s ease;
 }
 
 .nav-link:hover {
     color: var(--primary-gold);
+}
+
+.nav-link:hover::after {
+    width: 100%;
 }
 
 .back-link {
@@ -150,7 +193,7 @@ body {
 .investment-details p {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: var (--medium-gray);
+    color: var(--medium-gray);
     margin-bottom: 1.5rem;
 }
 
@@ -462,7 +505,7 @@ body {
 
 .price-per-sqm {
     font-size: 0.9rem;
-    color: var (--medium-gray);
+    color: var(--medium-gray);
     margin-bottom: 1.5rem;
 }
 
@@ -583,6 +626,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
 .footer {
     background: #0f0f0f;
     color: rgba(255,255,255,0.6);
@@ -595,14 +639,17 @@ body {
     background-color: var(--success-green);
     color: white;
 }
+
 .btn-segment.status-reserved {
     background-color: var(--warning-orange);
     color: white;
 }
+
 .btn-segment.status-sold {
     background-color: var(--danger-red);
     color: white;
 }
+
 .pzt-image {
     max-width: 500px;
     width: 100%;
@@ -610,6 +657,7 @@ body {
     display: block;
     margin: 0 auto;
 }
+
 .highlight-photo {
     border: 4px solid var(--primary-gold);
     box-shadow: 0 8px 30px rgba(184,115,51,0.25);
@@ -618,21 +666,28 @@ body {
     z-index: 2;
     position: relative;
 }
+
 .highlight-photo:hover {
     transform: scale(1.04);
 }
+
 .lightbox-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     background: rgba(0,0,0,0.85);
     display: none;
     align-items: center;
     justify-content: center;
     z-index: 9999;
 }
+
 .lightbox-overlay.visible {
     display: flex;
 }
+
 #lightbox-image {
     max-width: 90vw;
     max-height: 85vh;
