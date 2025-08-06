@@ -890,7 +890,7 @@
 
             // Funkcja ładująca statusy segmentów i generująca przyciski
             function loadSegmentStatuses() {
-                fetch('segment_status.json')
+                fetch('segment_status.json?t=' + new Date().getTime()) 
                     .then(response => response.json())
                     .then(data => {
                         // Poprawione przekazywanie podklucza!
