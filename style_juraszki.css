@@ -753,3 +753,68 @@ body {
     color: white;
     border-color: var(--danger-red);
 }
+/* ================================= 
+   STYLE DLA RESPONSIVE MENU
+==================================== */
+
+/* Przycisk "Hamburger" (domyślnie ukryty na desktopie) */
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: #333; /* Kolor ikony */
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1100; /* Zapewnia, że jest nad innymi elementami */
+}
+
+/* Media Query - style aktywują się na ekranach o szerokości do 768px */
+@media (max-width: 768px) {
+    /* Pokaż przycisk "Hamburger" */
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Główny kontener menu mobilnego */
+    .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%; /* Domyślnie schowane za prawą krawędzią */
+        width: 70%;   /* Szerokość wysuwanego menu */
+        height: 100vh;
+        padding: 4rem 2rem;
+        
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2rem; /* Odstępy między linkami */
+
+        background-color: rgba(255, 255, 255, 0.95); /* Lekko przezroczyste tło */
+        backdrop-filter: blur(10px); /* Efekt rozmycia tła za menu */
+        -webkit-backdrop-filter: blur(10px);
+        
+        box-shadow: -4px 0px 15px rgba(0, 0, 0, 0.1);
+        transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Płynna animacja wysuwania */
+        z-index: 1000;
+    }
+
+    /* Stan aktywny - kiedy menu jest widoczne */
+    .nav-menu.active {
+        right: 0; /* Wysuń menu do widoku */
+    }
+
+    /* Linki w menu mobilnym */
+    .nav-menu .nav-link, .nav-menu .cta-button {
+        font-size: 1.2rem;
+        color: #333;
+        width: 100%;
+        text-align: center;
+        padding: 0.5rem 0;
+    }
+    
+    .nav-menu .cta-button {
+        background-color: #5a67d8; /* Kolor z Twojej strony */
+        color: white;
+        border-radius: 5px;
+    }
+}
