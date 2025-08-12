@@ -1,3 +1,12 @@
+Jasne, oto poprawiony kod pliku `panel.php`, który zawiera teraz obsługę statusów dla obu inwestycji: "Osiedle Na Ścieżki" oraz "Osiedle Juraszki".
+
+Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem nową, osobną sekcję do zarządzania statusami dla "Osiedla Juraszki" tuż pod istniejącym formularzem.
+
+-----
+
+### Poprawiony `panel.php`
+
+```php
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -56,7 +65,7 @@
                 <?php
                 session_start();
                 if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
-                    <p>Jesteś zalogowany. Możesz dodać nowe ogłoszenie.</p>
+                    <p>Jesteś zalogowany. Możesz zarządzać ogłoszeniami i statusami inwestycji.</p>
                     <a href="wyloguj.php" class="btn btn-secondary">Wyloguj</a>
                 <?php else: ?>
                     <p>Zaloguj się, aby zarządzać ogłoszeniami.</p>
@@ -125,55 +134,92 @@
                     </div>
                 <?php endif; ?>
             </div>
-            <!-- Po sekcji dodawania ogłoszeń -->
-<?php if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
-<div class="form-section">
-    <h2>Zarządzaj statusami segmentów</h2>
-    <?php
-    $statusFile = 'segment_status.json';
-    $defaultStatuses = [
-        'L1' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available'],
-        'L2' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available']
-    ];
-    
-    if (file_exists($statusFile)) {
-        $segmentStatuses = json_decode(file_get_contents($statusFile), true);
-        // Jeśli plik jest pusty lub niepoprawny, użyj domyślnych
-        if (!is_array($segmentStatuses) || !isset($segmentStatuses['L1']) || !isset($segmentStatuses['L2'])) {
-            $segmentStatuses = $defaultStatuses;
-        }
-    } else {
-        $segmentStatuses = $defaultStatuses;
-    }
-    ?>
-    <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
-        <h3>Mieszkanie L1 (Parter)</h3>
-        <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
-        <div class="form-group">
-            <label for="status_L1_<?= $segment ?>">Segment <?= $segment ?>:</label>
-            <select name="status[L1][<?= $segment ?>]" id="status_L1_<?= $segment ?>">
-                <option value="available" <?= $segmentStatuses['L1'][$segment] === 'available' ? 'selected' : '' ?>>Dostępne</option>
-                <option value="reserved" <?= $segmentStatuses['L1'][$segment] === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
-                <option value="sold" <?= $segmentStatuses['L1'][$segment] === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
-            </select>
-        </div>
-        <?php endforeach; ?>
-        
-        <h3>Mieszkanie L2 (Piętro)</h3>
-        <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
-        <div class="form-group">
-            <label for="status_L2_<?= $segment ?>">Segment <?= $segment ?>:</label>
-            <select name="status[L2][<?= $segment ?>]" id="status_L2_<?= $segment ?>">
-                <option value="available" <?= $segmentStatuses['L2'][$segment] === 'available' ? 'selected' : '' ?>>Dostępne</option>
-                <option value="reserved" <?= $segmentStatuses['L2'][$segment] === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
-                <option value="sold" <?= $segmentStatuses['L2'][$segment] === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
-            </select>
-        </div>
-        <?php endforeach; ?>
-        <button type="submit" class="btn btn-primary">Zapisz statusy</button>
-    </form>
-</div>
-<?php endif; ?>
+            
+            <?php if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
+            
+            <div class="form-section">
+                <h2>Zarządzaj statusami - Osiedle Na Ścieżki</h2>
+                <?php
+                $statusFile = 'segment_status.json';
+                $defaultStatuses = [
+                    'L1' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available'],
+                    'L2' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available']
+                ];
+                
+                if (file_exists($statusFile)) {
+                    $segmentStatuses = json_decode(file_get_contents($statusFile), true);
+                    if (!is_array($segmentStatuses) || !isset($segmentStatuses['L1']) || !isset($segmentStatuses['L2'])) {
+                        $segmentStatuses = $defaultStatuses;
+                    }
+                } else {
+                    $segmentStatuses = $defaultStatuses;
+                }
+                ?>
+                <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
+                    <h3>Mieszkanie L1 (Parter)</h3>
+                    <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
+                    <div class="form-group">
+                        <label for="status_L1_<?= $segment ?>">Segment <?= $segment ?>:</label>
+                        <select name="status[L1][<?= $segment ?>]" id="status_L1_<?= $segment ?>">
+                            <option value="available" <?= ($segmentStatuses['L1'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
+                            <option value="reserved" <?= ($segmentStatuses['L1'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
+                            <option value="sold" <?= ($segmentStatuses['L1'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
+                        </select>
+                    </div>
+                    <?php endforeach; ?>
+                    
+                    <h3>Mieszkanie L2 (Piętro)</h3>
+                    <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
+                    <div class="form-group">
+                        <label for="status_L2_<?= $segment ?>">Segment <?= $segment ?>:</label>
+                        <select name="status[L2][<?= $segment ?>]" id="status_L2_<?= $segment ?>">
+                            <option value="available" <?= ($segmentStatuses['L2'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
+                            <option value="reserved" <?= ($segmentStatuses['L2'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
+                            <option value="sold" <?= ($segmentStatuses['L2'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
+                        </select>
+                    </div>
+                    <?php endforeach; ?>
+                    <button type="submit" class="btn btn-primary">Zapisz statusy "Na Ścieżki"</button>
+                </form>
+            </div>
+
+            <div class="form-section" style="margin-top: 50px; border-top: 2px solid #ddd; padding-top: 30px;">
+                <h2>Zarządzaj statusami lokali - Osiedle Juraszki</h2>
+                <?php
+                // Definicja pliku i statusów domyślnych dla Juraszki
+                $juraszkiStatusFile = 'juraszki_status.json';
+                $juraszkiDefaultStatuses = [
+                    'B1L1' => 'available',
+                    'B1L2' => 'available',
+                    'B2L1' => 'available',
+                    'B2L2' => 'available'
+                ];
+                
+                // Wczytywanie aktualnych statusów z pliku JSON dla Juraszki
+                if (file_exists($juraszkiStatusFile)) {
+                    $juraszkiStatuses = json_decode(file_get_contents($juraszkiStatusFile), true) ?: $juraszkiDefaultStatuses;
+                } else {
+                    $juraszkiStatuses = $juraszkiDefaultStatuses;
+                }
+                ?>
+                <form action="zapisz_statusy_juraszki.php" method="POST" class="segment-status-form">
+                    <?php foreach($juraszkiStatuses as $unitId => $status): ?>
+                    <div class="form-group">
+                        <label for="status_<?= $unitId ?>">Lokal <?= $unitId ?>:</label>
+                        <select name="status[<?= $unitId ?>]" id="status_<?= $unitId ?>">
+                            <option value="available" <?= $status === 'available' ? 'selected' : '' ?>>Dostępny</option>
+                            <option value="reserved" <?= $status === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
+                            <option value="sold" <?= $status === 'sold' ? 'selected' : '' ?>>Sprzedany</option>
+                        </select>
+                    </div>
+                    <?php endforeach; ?>
+                    
+                    <button type="submit" class="btn btn-primary">Zapisz statusy "Juraszki"</button>
+                </form>
+            </div>
+            
+            <?php endif; ?>
+        </section>
     </main>
 
     <footer class="footer">
@@ -185,3 +231,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+```

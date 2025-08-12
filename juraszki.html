@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osiedle Juraszki - TarnowskiDeveloper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style_juraszki.css"> 
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="podstawowe_zdjęcia/logo_Tarnowski.jpg" alt="Logo TarnowskiDeveloper">
+                DeveloperTarnów
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#about" class="nav-link">O nas</a></li>
+                <li><a href="index.html#investments" class="nav-link">Inwestycje</a></li>
+                <li><a href="ogloszenia.php" class="nav-link">Ogłoszenia</a></li>
+                <li><a href="index.html#contact" class="nav-link">Kontakt</a></li>
+                <li><a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Powrót</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="investment-hero">
+        <div class="hero-container">
+            <h1>Osiedle Juraszki</h1>
+            <p>Nowoczesne domy jednorodzinne w zabudowie bliźniaczej. Twoja przestrzeń w doskonałej lokalizacji.</p>
+        </div>
+    </section>
+
+    <section class="investment-info">
+        <div class="info-container">
+            <div class="investment-details">
+                <h2>O inwestycji</h2>
+                <p>Osiedle Juraszki to kameralna inwestycja składająca się z <strong>dwóch domów jednorodzinnych dwulokalowych w zabudowie bliźniaczej</strong>. Łącznie oferujemy cztery nowoczesne lokale mieszkalne, każdy o powierzchni 57,40 m², zaprojektowane z dbałością o funkcjonalność i komfort przyszłych mieszkańców.</p>
+                
+                <h4>Główne cechy inwestycji:</h4>
+                <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    <li>Teren inwestycji w pełni ogrodzony z bramą wjazdową.</li>
+                    <li>Prywatne, ogrodzone działki przynależne do każdego lokalu.</li>
+                    <li>Nowoczesne oświetlenie LED, domofon i skrzynki na listy.</li>
+                    <li>Parking z kostki brukowej z wyznaczonymi miejscami.</li>
+                    <li>Urządzona zieleń z nasadzeniami i elementami małej architektury.</li>
+                    <li>Instalacja światłowodowa, TV-SAT i TV naziemna.</li>
+                </ul>
+
+                <div class="investment-photos">
+                    <img src="podstawowe_zdjęcia/Juraszki/B1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 1" class="main-photo highlight-photo">
+                    <img src="podstawowe_zdjęcia/Juraszki/A1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 2" class="main-photo highlight-photo">
+                    <img src="podstawowe_zdjęcia/Juraszki/D1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 3" class="main-photo highlight-photo">
+                    <img src="podstawowe_zdjęcia/Juraszki/C1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 4" class="main-photo highlight-photo">
+                </div>
+            </div>
+        
+            <div class="investment-stats">
+                <h3 class="stats-title">Informacje o inwestycji</h3>
+                <div class="stat-row">
+                    <span class="stat-label">Lokalizacja</span>
+                    <span class="stat-value">Tarnów, ul. Juraszki</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Liczba lokali</span>
+                    <span class="stat-value">4</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Typ zabudowy</span>
+                    <span class="stat-value">Bliźniacza</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Powierzchnia lokali</span>
+                    <span class="stat-value">57,40 m²</span>
+                </div>
+                 <div class="stat-row">
+                    <span class="stat-label">Pokoje</span>
+                    <span class="stat-value">4</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Status</span>
+                    <span class="stat-value" style="color: var(--success-green);">W sprzedaży</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Termin realizacji</span>
+                    <span class="stat-value">Q2 2027</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="pzt-section">
+        <h2>Plan Zagospodarowania Terenu</h2>
+        <img src="podstawowe_zdjęcia/Juraszki/PZTss.jpg" alt="Plan Zagospodarowania Terenu Osiedla Juraszki" class="pzt-image">
+    </section>
+
+    <section class="apartments-section">
+        <div class="apartments-container">
+            <h2 class="section-title">Dostępne lokale</h2>
+            <p class="section-subtitle">Wybierz dom idealny dla Ciebie. Każdy lokal posiada własną działkę i niezależne wejście. Wielkość działek od 91 m² do 156 m².</p>
+
+            <div class="apartments-grid" id="apartmentsGrid">
+                <div class="apartment-card" data-id="main">
+                    <div class="apartment-image-container">
+                        <img src="podstawowe_zdjęcia/Juraszki/Parterjpg.jpg" alt="Rzut parteru">
+                        <img src="podstawowe_zdjęcia/Juraszki/Pietrojpg.jpg" alt="Rzut piętra" class="hidden">
+                        <div class="image-nav">
+                            <button class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                            <button class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                        <span class="apartment-badge">Lokal</span>
+                    </div>
+                    <div class="apartment-content">
+                        <h3 class="apartment-title">Lokal mieszkalny z ogrodem</h3>
+                        <div class="apartment-specs">
+                            <div class="spec-item"><div class="spec-value">57.40</div><div class="spec-label">m²</div></div>
+                            <div class="spec-item"><div class="spec-value">4</div><div class="spec-label">pokoje</div></div>
+                            <div class="spec-item"><div class="spec-value">2</div><div class="spec-label">poziomy</div></div>
+                        </div>
+                        <div class="apartment-price">od 570 000 PLN</div>
+                        
+                        <div class="apartment-actions" id="unit-status-buttons" style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin-top: 20px;">
+                            </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legend-container">
+                <div class="legend-item">
+                    <span class="legend-color-box status-available"></span> Dostępny
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box status-reserved"></span> Rezerwacja
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color-box status-sold"></span> Sprzedany
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <div class="contact-container">
+            <h2>Masz pytania? Skontaktuj się z nami</h2>
+            <p>Jesteśmy do Twojej dyspozycji od poniedziałku do piątku w godzinach 8:00-16:00</p>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h4>Telefon</h4>
+                    <p>+48 123 456 789</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h4>E-mail</h4>
+                    <p>kontakt@tarnowskideveloper.pl</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="script_juraszki.js"></script>
+
+    <footer class="footer">
+        <div class="nav-container">
+            <p>&copy; 2025 TarnowskiDeveloper. Created by Piotr Cebula. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+</body>
+</html>

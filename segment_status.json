@@ -1,1 +1,22 @@
-{"L1":{"B1":"available","B2":"available","B3":"available","B4":"available"},"L2":{"B1":"available","B2":"available","B3":"available","B4":"available"}}
+{
+    "naSciezki": {
+      "L1": {
+        "B1": "available",
+        "B2": "reserved",
+        "B3": "sold",
+        "B4": "available"
+      },
+      "L2": {
+        "B1": "available",
+        "B2": "sold",
+        "B3": "sold",
+        "B4": "available"
+      }
+    },
+    "juraszki": {
+      "B1L1": "available",
+      "B1L2": "available",
+      "B2L1": "reserved",
+      "B2L2": "sold"
+    }
+  }
