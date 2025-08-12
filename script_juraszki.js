@@ -2,33 +2,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- NOWA GŁÓWNA FUNKCJA DO ŁADOWANIA STATUSÓW I TWORZENIA PRZYCISKÓW ---
     function loadUnitStatusesAndButtons() {
-        // Używamy unikalnego parametru, by ominąć cache przeglądarki
-        fetch('juraszki_status.json?t=' + new Date().getTime())
+        // ZMIANA: Pobieramy dane z ujednoliconego pliku segment_status.json
+        fetch('segment_status.json?t=' + new Date().getTime())
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Błąd sieci lub nie znaleziono pliku juraszki_status.json');
+                    throw new Error('Błąd sieci lub nie znaleziono pliku segment_status.json');
                 }
                 return response.json();
             })
             .then(data => {
-                const container = document.getElementById('unit-status-buttons');
-                if (!container) return;
+                // ZMIANA: Sprawdzamy, czy istnieje klucz 'juraszki'
+                if (data && data.juraszki) {
+                    const statuses = data.juraszki;
+                    const container = document.getElementById('unit-status-buttons');
+                    if (!container) return;
 
-                container.innerHTML = ''; // Wyczyść kontener przed dodaniem nowych przycisków
+                    container.innerHTML = ''; // Wyczyść kontener przed dodaniem nowych przycisków
 
-                // Klucze z pliku JSON (np. ["B1L1", "B1L2", "B2L1", "B2L2"])
-                const units = Object.keys(data); 
+                    // Klucze z pliku JSON (np. ["B1L1", "B1L2", "B2L1", "B2L2"])
+                    const units = Object.keys(statuses);
 
-                units.forEach(unitId => {
-                    const status = data[unitId]; // np. "available", "reserved", "sold"
-                    
-                    const button = document.createElement('button');
-                    button.textContent = unitId;
-                    // Używamy klasy .btn-segment, która ma już zdefiniowane style statusów
-                    button.className = `btn-segment status-${status}`;
-                    
-                    container.appendChild(button);
-                });
+                    units.forEach(unitId => {
+                        const status = statuses[unitId]; // np. "available", "reserved", "sold"
+                        
+                        const button = document.createElement('button');
+                        button.textContent = unitId;
+                        // Używamy klasy .btn-segment, która ma już zdefiniowane style statusów
+                        button.className = `btn-segment status-${status}`;
+                        
+                        container.appendChild(button);
+                    });
+                }
             })
             .catch(error => {
                 console.error('Błąd ładowania statusów dla Osiedla Juraszki:', error);

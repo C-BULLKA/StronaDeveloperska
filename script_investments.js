@@ -55,8 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('segment_status.json?t=' + new Date().getTime()) 
             .then(response => response.json())
             .then(data => {
-                updateSegmentButtons('L1', data.L1);
-                updateSegmentButtons('L2', data.L2);
+                // ZMIANA: Sprawdzamy, czy istnieje klucz 'naSciezki' i przekazujemy odpowiednie dane
+                if (data && data.naSciezki) {
+                    updateSegmentButtons('L1', data.naSciezki.L1);
+                    updateSegmentButtons('L2', data.naSciezki.L2);
+                }
             })
             .catch(error => {
                 console.error('Błąd ładowania statusów:', error);

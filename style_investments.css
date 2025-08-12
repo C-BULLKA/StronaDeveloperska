@@ -633,23 +633,6 @@ body {
     text-align: center;
     padding: 2rem 0;
 }
-
-/* Dodane style dla przycisków segmentów */
-.btn-segment.status-available {
-    background-color: var(--success-green);
-    color: white;
-}
-
-.btn-segment.status-reserved {
-    background-color: var(--warning-orange);
-    color: white;
-}
-
-.btn-segment.status-sold {
-    background-color: var(--danger-red);
-    color: white;
-}
-
 .pzt-image {
     max-width: 500px;
     width: 100%;
@@ -693,4 +676,63 @@ body {
     max-height: 85vh;
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+/* --- Style dla Legendy Statusów --- */
+.legend-container {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    padding: 1rem;
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 500;
+}
+
+.legend-color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* --- Style dla przycisków i ich statusów (powinny już istnieć w pliku CSS z "investments") --- */
+.btn-segment {
+    flex: 1;
+    min-width: 80px; /* Minimalna szerokość przycisku */
+    padding: 0.8rem;
+    border: 2px solid var(--light-gray);
+    background: white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-segment.status-available {
+    background-color: var(--success-green);
+    color: white;
+    border-color: var(--success-green);
+}
+
+.btn-segment.status-reserved {
+    background-color: var(--warning-orange);
+    color: white;
+    border-color: var(--warning-orange);
+}
+
+.btn-segment.status-sold {
+    background-color: var(--danger-red);
+    color: white;
+    border-color: var(--danger-red);
 }

@@ -1,12 +1,3 @@
-Jasne, oto poprawiony kod pliku `panel.php`, który zawiera teraz obsługę statusów dla obu inwestycji: "Osiedle Na Ścieżki" oraz "Osiedle Juraszki".
-
-Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem nową, osobną sekcję do zarządzania statusami dla "Osiedla Juraszki" tuż pod istniejącym formularzem.
-
------
-
-### Poprawiony `panel.php`
-
-```php
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -15,32 +6,31 @@ Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem
     <title>Panel Administracyjny | TarnowskiDeveloper</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* W sekcji <style> */
-.segment-status-form {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 8px;
-    margin-top: 30px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-}
-
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background: white;
-}
-</style>
+        .segment-status-form {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+        .form-section {
+             margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
     <header class="main-header">
@@ -137,33 +127,28 @@ Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem
             
             <?php if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
             
-            <div class="form-section">
+            <?php
+            // Wczytaj wszystkie statusy z jednego pliku
+            $statusFile = 'segment_status.json';
+            $allStatuses = json_decode(file_get_contents($statusFile), true);
+            
+            // Przypisz statusy do odpowiednich zmiennych, z obsługą błędów
+            $naSciezkiStatuses = $allStatuses['naSciezki'] ?? [];
+            $juraszkiStatuses = $allStatuses['juraszki'] ?? [];
+            ?>
+
+            <div class="form-section" style="margin-top: 50px; border-top: 2px solid #ddd; padding-top: 30px;">
                 <h2>Zarządzaj statusami - Osiedle Na Ścieżki</h2>
-                <?php
-                $statusFile = 'segment_status.json';
-                $defaultStatuses = [
-                    'L1' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available'],
-                    'L2' => ['B1' => 'available', 'B2' => 'available', 'B3' => 'available', 'B4' => 'available']
-                ];
-                
-                if (file_exists($statusFile)) {
-                    $segmentStatuses = json_decode(file_get_contents($statusFile), true);
-                    if (!is_array($segmentStatuses) || !isset($segmentStatuses['L1']) || !isset($segmentStatuses['L2'])) {
-                        $segmentStatuses = $defaultStatuses;
-                    }
-                } else {
-                    $segmentStatuses = $defaultStatuses;
-                }
-                ?>
                 <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
+                    <input type="hidden" name="investment" value="naSciezki">
                     <h3>Mieszkanie L1 (Parter)</h3>
                     <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
                     <div class="form-group">
                         <label for="status_L1_<?= $segment ?>">Segment <?= $segment ?>:</label>
                         <select name="status[L1][<?= $segment ?>]" id="status_L1_<?= $segment ?>">
-                            <option value="available" <?= ($segmentStatuses['L1'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
-                            <option value="reserved" <?= ($segmentStatuses['L1'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
-                            <option value="sold" <?= ($segmentStatuses['L1'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
+                            <option value="available" <?= ($naSciezkiStatuses['L1'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
+                            <option value="reserved" <?= ($naSciezkiStatuses['L1'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
+                            <option value="sold" <?= ($naSciezkiStatuses['L1'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
                         </select>
                     </div>
                     <?php endforeach; ?>
@@ -173,9 +158,9 @@ Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem
                     <div class="form-group">
                         <label for="status_L2_<?= $segment ?>">Segment <?= $segment ?>:</label>
                         <select name="status[L2][<?= $segment ?>]" id="status_L2_<?= $segment ?>">
-                            <option value="available" <?= ($segmentStatuses['L2'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
-                            <option value="reserved" <?= ($segmentStatuses['L2'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
-                            <option value="sold" <?= ($segmentStatuses['L2'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
+                            <option value="available" <?= ($naSciezkiStatuses['L2'][$segment] ?? 'available') === 'available' ? 'selected' : '' ?>>Dostępne</option>
+                            <option value="reserved" <?= ($naSciezkiStatuses['L2'][$segment] ?? '') === 'reserved' ? 'selected' : '' ?>>Rezerwacja</option>
+                            <option value="sold" <?= ($naSciezkiStatuses['L2'][$segment] ?? '') === 'sold' ? 'selected' : '' ?>>Sprzedane</option>
                         </select>
                     </div>
                     <?php endforeach; ?>
@@ -185,24 +170,8 @@ Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem
 
             <div class="form-section" style="margin-top: 50px; border-top: 2px solid #ddd; padding-top: 30px;">
                 <h2>Zarządzaj statusami lokali - Osiedle Juraszki</h2>
-                <?php
-                // Definicja pliku i statusów domyślnych dla Juraszki
-                $juraszkiStatusFile = 'juraszki_status.json';
-                $juraszkiDefaultStatuses = [
-                    'B1L1' => 'available',
-                    'B1L2' => 'available',
-                    'B2L1' => 'available',
-                    'B2L2' => 'available'
-                ];
-                
-                // Wczytywanie aktualnych statusów z pliku JSON dla Juraszki
-                if (file_exists($juraszkiStatusFile)) {
-                    $juraszkiStatuses = json_decode(file_get_contents($juraszkiStatusFile), true) ?: $juraszkiDefaultStatuses;
-                } else {
-                    $juraszkiStatuses = $juraszkiDefaultStatuses;
-                }
-                ?>
-                <form action="zapisz_statusy_juraszki.php" method="POST" class="segment-status-form">
+                <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
+                    <input type="hidden" name="investment" value="juraszki">
                     <?php foreach($juraszkiStatuses as $unitId => $status): ?>
                     <div class="form-group">
                         <label for="status_<?= $unitId ?>">Lokal <?= $unitId ?>:</label>
@@ -227,8 +196,6 @@ Zgodnie z prośbą, istniejący kod został w większości nietknięty. Dodałem
             <p>&copy; 2025 TarnowskiDeveloper. Created by Piotr Cebula. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
-
     <script src="script.js"></script>
 </body>
 </html>
-```
