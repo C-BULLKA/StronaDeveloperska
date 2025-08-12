@@ -51,39 +51,42 @@ document.querySelector('.contact-form').addEventListener('submit', function(e) {
     alert('Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.');
     this.reset();
 });
-/* ================================= 
-   LOGIKA DLA RESPONSIVE MENU
-==================================== */
-document.addEventListener('DOMContentLoaded', function() {
-    const navMenu = document.getElementById('nav-menu');
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.querySelectorAll('.nav-link');
+// Karuzela inwestycji
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".carousel").forEach(carousel => {
+        const track = carousel.querySelector(".carousel-track");
+        const prevBtn = carousel.querySelector(".carousel-btn.prev");
+        const nextBtn = carousel.querySelector(".carousel-btn.next");
+        const slides = Array.from(track.children);
+        let currentIndex = 0;
 
-    // Funkcja do przełączania menu
-    const toggleMenu = () => {
-        navMenu.classList.toggle('active');
-        // Zmiana ikony hamburgera na 'X' i z powrotem
-        const icon = navToggle.querySelector('i');
-        if (navMenu.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+        function slidesPerView() {
+            if (window.innerWidth <= 600) return 1;
+            if (window.innerWidth <= 900) return 2;
+            return 3;
         }
-    };
 
-    // Przełączanie menu po kliknięciu w przycisk
-    if (navToggle) {
-        navToggle.addEventListener('click', toggleMenu);
-    }
+        function updateCarousel() {
+            const slideWidth = slides[0].getBoundingClientRect().width + 16; // +margin
+            track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+        }
 
-    // Zamykanie menu po kliknięciu w dowolny link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navMenu.classList.contains('active')) {
-                toggleMenu();
+        nextBtn.addEventListener("click", () => {
+            if (currentIndex < slides.length - slidesPerView()) {
+                currentIndex++;
+                updateCarousel();
             }
         });
+
+        prevBtn.addEventListener("click", () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+
+        window.addEventListener("resize", updateCarousel);
+        updateCarousel();
     });
 });
+

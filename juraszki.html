@@ -6,7 +6,9 @@
     <title>Osiedle Juraszki - TarnowskiDeveloper</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="style_juraszki.css"> 
+    <link rel="stylesheet" type="text/css" href="style_juraszki.css">
+    <link rel="stylesheet" type="text/css" href="menu.css">
+    <link rel="stylesheet" type="text/css" href="carousel.css">
 </head>
 <body>
     <header class="header" id="header">
@@ -14,13 +16,13 @@
             <a href="index.html" class="logo">
                 <img src="podstawowe_zdjęcia/logo_Tarnowski.jpg" alt="Logo TarnowskiDeveloper">
                 DeveloperTarnów
-            </a> <ul class="nav-menu">
+            </a>
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html#about" class="nav-link">O nas</a></li>
                 <li><a href="index.html#investments" class="nav-link">Inwestycje</a></li>
                 <li><a href="ogloszenia.php" class="nav-link">Ogłoszenia</a></li>
                 <li><a href="index.html#contact" class="nav-link">Kontakt</a></li>
-                <li><a href="index.html" class="back-link">
-                <i class="fas fa-arrow-left"></i> Powrót</a></li>
+                <li><a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Powrót</a></li>
             </ul>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
                 <i class="fas fa-bars"></i>
@@ -31,7 +33,7 @@
     <section class="investment-hero">
         <div class="hero-container">
             <h1>Osiedle Juraszki</h1>
-            <p>Nowoczesne domy jednorodzinne w zabudowie bliźniaczej. Twoja przestrzeń w doskonałej lokalizacji.</p>
+            <p>Nowoczesne domy jednorodzinne w zabudowie bliźniaczej...</p>
         </div>
     </section>
 
@@ -39,23 +41,15 @@
         <div class="info-container">
             <div class="investment-details">
                 <h2>O inwestycji</h2>
-                <p>Osiedle Juraszki to kameralna inwestycja składająca się z <strong>dwóch domów jednorodzinnych dwulokalowych w zabudowie bliźniaczej</strong>. Łącznie oferujemy cztery nowoczesne lokale mieszkalne, każdy o powierzchni 57,40 m², zaprojektowane z dbałością o funkcjonalność i komfort przyszłych mieszkańców.</p>
-                
-                <h4>Główne cechy inwestycji:</h4>
-                <ul style="list-style-type: disc; padding-left: 20px; margin-bottom: 1.5rem; color: var(--medium-gray);">
-                    <li>Teren inwestycji w pełni ogrodzony z bramą wjazdową.</li>
-                    <li>Prywatne, ogrodzone działki przynależne do każdego lokalu.</li>
-                    <li>Nowoczesne oświetlenie LED, domofon i skrzynki na listy.</li>
-                    <li>Parking z kostki brukowej z wyznaczonymi miejscami.</li>
-                    <li>Urządzona zieleń z nasadzeniami i elementami małej architektury.</li>
-                    <li>Instalacja światłowodowa, TV-SAT i TV naziemna.</li>
-                </ul>
-
-                <div class="investment-photos">
-                    <img src="podstawowe_zdjęcia/Juraszki/B1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 1" class="main-photo highlight-photo">
-                    <img src="podstawowe_zdjęcia/Juraszki/A1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 2" class="main-photo highlight-photo">
-                    <img src="podstawowe_zdjęcia/Juraszki/D1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 3" class="main-photo highlight-photo">
-                    <img src="podstawowe_zdjęcia/Juraszki/jpg.jpg" alt="Wizualizacja Osiedla Juraszki 4" class="main-photo highlight-photo">
+                <div class="investment-photos carousel">
+                    <button class="carousel-btn prev"><i class="fas fa-chevron-left"></i></button>
+                    <div class="carousel-track">
+                        <img src="podstawowe_zdjęcia/Juraszki/B1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 1">
+                        <img src="podstawowe_zdjęcia/Juraszki/A1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 2">
+                        <img src="podstawowe_zdjęcia/Juraszki/D1jpg.jpg" alt="Wizualizacja Osiedla Juraszki 3">
+                        <img src="podstawowe_zdjęcia/Juraszki/jpg.jpg" alt="Wizualizacja Osiedla Juraszki 4">
+                    </div>
+                    <button class="carousel-btn next"><i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
         
@@ -166,13 +160,14 @@
             </div>
         </div>
     </section>
-    
-    <script src="script_juraszki.js"></script>
 
     <footer class="footer">
         <div class="nav-container">
             <p>&copy; 2025 TarnowskiDeveloper. Created by Piotr Cebula. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
+    <script src="script_juraszki.js"></script>
+    <script src="menu.js"></script>
+    <script src="carousel.js"></script>
 </body>
 </html>

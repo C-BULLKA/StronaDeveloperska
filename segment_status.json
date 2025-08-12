@@ -1,16 +1,16 @@
 {
     "naSciezki": {
         "L1": {
-            "B1": "available",
+            "B1": "sold",
             "B2": "available",
             "B3": "available",
-            "B4": "available"
+            "B4": "sold"
         },
         "L2": {
             "B1": "available",
-            "B2": "available",
+            "B2": "reserved",
             "B3": "available",
-            "B4": "available"
+            "B4": "reserved"
         }
     },
     "juraszki": {

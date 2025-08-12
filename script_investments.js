@@ -198,39 +198,3 @@ function enableApartmentLightbox() {
         });
     });
 }
-/* ================================= 
-   LOGIKA DLA RESPONSIVE MENU
-==================================== */
-document.addEventListener('DOMContentLoaded', function() {
-    const navMenu = document.getElementById('nav-menu');
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // Funkcja do przełączania menu
-    const toggleMenu = () => {
-        navMenu.classList.toggle('active');
-        // Zmiana ikony hamburgera na 'X' i z powrotem
-        const icon = navToggle.querySelector('i');
-        if (navMenu.classList.contains('active')) {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-times');
-        } else {
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
-        }
-    };
-
-    // Przełączanie menu po kliknięciu w przycisk
-    if (navToggle) {
-        navToggle.addEventListener('click', toggleMenu);
-    }
-
-    // Zamykanie menu po kliknięciu w dowolny link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            if (navMenu.classList.contains('active')) {
-                toggleMenu();
-            }
-        });
-    });
-});
