@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const prevBtn = carousel.querySelector(".carousel-btn.prev");
         const nextBtn = carousel.querySelector(".carousel-btn.next");
         const slides = Array.from(track.children);
-        let currentIndex = 0;
+        let currentIndex = 0; 
 
         function slidesPerView() {
             if (window.innerWidth <= 600) return 1;
