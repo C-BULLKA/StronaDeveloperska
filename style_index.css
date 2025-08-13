@@ -32,10 +32,17 @@ body {
     z-index: 1000;
     transition: all 0.3s ease;
 }
-.logo img {
+.logo_img {
     height: 80px;
     width: auto;
     vertical-align: middle;
+}
+.logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--dark-navy);
+    text-decoration: none;
 }
 
 .header.scrolled {
