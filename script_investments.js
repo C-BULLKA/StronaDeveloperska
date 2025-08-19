@@ -142,10 +142,10 @@ function enableApartmentLightbox() {
                     lightbox.id = 'image-lightbox';
                     lightbox.className = 'lightbox-overlay';
                     lightbox.innerHTML = `
-                        <button class="lightbox-prev-btn" style="position:absolute;left:30px;top:50%;transform:translateY(-50%);font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&#10094;</button>
+                        <button class="lightbox-prev-btn">&#10094;</button>
                         <img id="lightbox-image" src="" alt="Powiększone zdjęcie">
-                        <button class="lightbox-next-btn" style="position:absolute;right:30px;top:50%;transform:translateY(-50%);font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&#10095;</button>
-                        <button class="lightbox-close-btn" style="position:absolute;top:20px;right:30px;font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&times;</button>
+                        <button class="lightbox-next-btn">&#10095;</button>
+                        <button class="lightbox-close-btn">&times;</button>
                     `;
                     document.body.appendChild(lightbox);
                 }

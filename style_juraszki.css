@@ -753,3 +753,91 @@ body {
     color: white;
     border-color: var(--danger-red);
 }
+
+
+/* ==========================================================================
+   STYLE DLA STRZAŁEK W LIGHTBOXIE (POWIĘKSZONE ZDJĘCIE)
+   ========================================================================== */
+
+/* Styl dla przycisku ZAMKNIJ (X) */
+.lightbox-close-btn {
+    position: absolute;
+    top: 20px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+    z-index: 1001; /* Musi być na samym wierzchu */
+}
+
+.lightbox-close-btn:hover {
+    color: #bbb;
+}
+
+/* Wspólny styl dla strzałek (lewa i prawa) */
+.lightbox-prev-btn,
+.lightbox-next-btn {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    transition: 0.4s ease;
+    user-select: none; /* Zapobiega zaznaczaniu tekstu strzałki */
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1001; /* Musi być na samym wierzchu */
+}
+
+/* Pozycjonowanie prawej strzałki */
+.lightbox-next-btn {
+    right: 0;
+    border-radius: 5px 0 0 5px; /* Zaokrąglenie rogów */
+}
+
+/* Pozycjonowanie lewej strzałki */
+.lightbox-prev-btn {
+    left: 0;
+    border-radius: 0 5px 5px 0; /* Zaokrąglenie rogów */
+}
+
+/* Efekt po najechaniu myszką na strzałki */
+.lightbox-prev-btn:hover,
+.lightbox-next-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Style dla całego okna lightboxa - możesz już je mieć, ale upewnij się */
+.lightbox-overlay {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Ukrycie domyślne i animacja */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+.lightbox-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#lightbox-image {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain; /* Zachowuje proporcje obrazu */
+}
