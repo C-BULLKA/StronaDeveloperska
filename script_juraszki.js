@@ -1,200 +1,173 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const apartments = document.querySelectorAll('.apartment-card');
 
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // Deactivate all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            // Activate the clicked button
-            button.classList.add('active');
-
-            const filter = button.getAttribute('data-filter');
-
-            apartments.forEach(apartment => {
-                const rooms = apartment.getAttribute('data-rooms');
-                const status = apartment.getAttribute('data-status');
-
-                let show = false;
-                if (filter === 'all') {
-                    show = true;
-                } else if (filter === 'available' && status === 'available') {
-                    show = true;
-                } else if (rooms === filter) {
-                    show = true;
+    // --- FUNKCJA DO ŁADOWANIA STATUSÓW I TWORZENIA PRZYCISKÓW ---
+    function loadUnitStatusesAndButtons() {
+        fetch('segment_status.json?t=' + new Date().getTime())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Błąd sieci lub nie znaleziono pliku segment_status.json');
                 }
+                return response.json();
+            })
+            .then(data => {
+                if (data && data.juraszki) {
+                    const statuses = data.juraszki;
+                    const container = document.getElementById('unit-status-buttons');
+                    if (!container) return;
 
-                apartment.style.display = show ? 'block' : 'none';
+                    container.innerHTML = ''; // Wyczyść kontener
+
+                    const units = Object.keys(statuses);
+
+                    units.forEach(unitId => {
+                        const status = statuses[unitId];
+                        const button = document.createElement('button');
+                        button.textContent = unitId;
+                        button.className = `btn-segment status-${status}`;
+                        container.appendChild(button);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Błąd ładowania statusów dla Osiedla Juraszki:', error);
+                const container = document.getElementById('unit-status-buttons');
+                if(container) container.innerHTML = '<p style="color:red;">Nie udało się wczytać statusów lokali.</p>';
             });
-        });
-    });
+    }
 
-    // Image switching logic
-    const apartmentCards = document.querySelectorAll('.apartment-card');
-    apartmentCards.forEach(card => {
+    // --- LOGIKA PRZEŁĄCZANIA OBRAZKÓW W GŁÓWNYM KAFELKU ---
+    function setupImageSwitcher() {
+        const card = document.querySelector('.apartment-card');
+        if (!card) return;
+
         const images = card.querySelectorAll('.apartment-image-container img');
+        if (images.length < 2) return;
+
         const prevBtn = card.querySelector('.prev-btn');
         const nextBtn = card.querySelector('.next-btn');
         let currentIndex = 0;
 
-        prevBtn.addEventListener('click', () => {
-            images[currentIndex].classList.add('hidden');
+        function showImage(index) {
+            images.forEach((img, i) => {
+                img.classList.toggle('hidden', i !== index);
+            });
+        }
+
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             currentIndex = (currentIndex - 1 + images.length) % images.length;
-            images[currentIndex].classList.remove('hidden');
+            showImage(currentIndex);
         });
 
-        nextBtn.addEventListener('click', () => {
-            images[currentIndex].classList.add('hidden');
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
             currentIndex = (currentIndex + 1) % images.length;
-            images[currentIndex].classList.remove('hidden');
-        });
-    });
-
-    // Funkcja ładująca statusy segmentów i generująca przyciski
-    function loadSegmentStatuses() {
-        fetch('segment_status.json?t=' + new Date().getTime()) 
-            .then(response => response.json())
-            .then(data => {
-                // ZMIANA: Sprawdzamy, czy istnieje klucz 'naSciezki' i przekazujemy odpowiednie dane
-                if (data && data.naSciezki) {
-                    updateSegmentButtons('L1', data.naSciezki.L1);
-                    updateSegmentButtons('L2', data.naSciezki.L2);
-                }
-            })
-            .catch(error => {
-                console.error('Błąd ładowania statusów:', error);
-            });
-    }
-
-    function updateSegmentButtons(apartmentId, statusData) {
-        const container = document.getElementById(`segment-buttons-${apartmentId}`);
-        if (!container) return;
-
-        container.innerHTML = ''; // Wyczyść kontener
-
-        // Dla każdego segmentu (B1, B2, B3, B4) utwórz przycisk
-        ['B1', 'B2', 'B3', 'B4'].forEach(segment => {
-            const status = statusData && statusData[segment] ? statusData[segment] : 'available';
-            const button = document.createElement('button');
-            button.className = `btn-segment status-${status}`;
-            button.textContent = segment;
-            container.appendChild(button);
+            showImage(currentIndex);
         });
     }
+    
+    // --- LIGHTBOX Z POPRAWIONĄ LOGIKĄ GALERII ---
+    function initializeLightbox() {
+        // ZMIANA: Poprawiamy selektor, aby pasował do Twojego HTML (używasz .investment-photos)
+        const imagesToZoom = document.querySelectorAll('.investment-photos img, .pzt-image, .apartment-image-container img');
+        if (imagesToZoom.length === 0) return;
 
-    // Wywołaj funkcję ładującą statusy
-    loadSegmentStatuses();
+        // Utwórz elementy lightboxa tylko raz i dodaj do strony
+        const lightbox = document.createElement('div');
+        lightbox.id = 'image-lightbox';
+        lightbox.className = 'lightbox-overlay';
+        lightbox.innerHTML = `
+            <span class="lightbox-close-btn">&times;</span>
+            <span class="lightbox-prev-btn">&#10094;</span>
+            <img id="lightbox-image" src="" alt="Powiększone zdjęcie">
+            <span class="lightbox-next-btn">&#10095;</span>
+        `;
+        document.body.appendChild(lightbox);
+        
+        const lightboxImage = lightbox.querySelector('#lightbox-image');
+        const closeBtn = lightbox.querySelector('.lightbox-close-btn');
+        const prevBtn = lightbox.querySelector('.lightbox-prev-btn');
+        const nextBtn = lightbox.querySelector('.lightbox-next-btn');
+        
+        // Zamykanie lightboxa
+        const closeLightbox = () => lightbox.classList.remove('visible');
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
 
-    // Lightbox dla zdjęć inwestycji i PZT
-    function enableLightbox(selector) {
-        document.querySelectorAll(selector).forEach(img => {
+        // Dodajemy listener do każdego zdjęcia, które może być powiększone
+        imagesToZoom.forEach(img => {
             img.style.cursor = 'zoom-in';
-            img.addEventListener('click', function() {
-                let lightbox = document.getElementById('image-lightbox');
-                if (!lightbox) {
-                    lightbox = document.createElement('div');
-                    lightbox.id = 'image-lightbox';
-                    lightbox.className = 'lightbox-overlay';
-                    lightbox.innerHTML = `
-                        <img id="lightbox-image" src="" alt="Powiększone zdjęcie">
-                        <button class="lightbox-close-btn" style="position:absolute;top:20px;right:30px;font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&times;</button>
-                    `;
-                    document.body.appendChild(lightbox);
+            img.addEventListener('click', function(event) {
+                const clickedImage = event.target;
+
+                // === NAJWAŻNIEJSZA ZMIANA JEST TUTAJ ===
+                // Dynamicznie ustalamy, co jest naszą bieżącą galerią
+                let currentGallery = [];
+                const apartmentContainer = clickedImage.closest('.apartment-image-container');
+                const carouselContainer = clickedImage.closest('.carousel-track');
+
+                if (apartmentContainer) {
+                    // Jeśli kliknięto obrazek w kafelku, galerią są tylko obrazki z tego kafelka
+                    currentGallery = Array.from(apartmentContainer.querySelectorAll('img'));
+                } else if (carouselContainer) {
+                    // Jeśli kliknięto obrazek w karuzeli, galerią są tylko obrazki z tej karuzeli
+                    currentGallery = Array.from(carouselContainer.querySelectorAll('img'));
+                } else {
+                    // W każdym innym przypadku (np. PZT), to pojedynczy obrazek bez galerii
+                    currentGallery = [clickedImage];
                 }
-                const lightboxImage = lightbox.querySelector('#lightbox-image');
-                const lightboxCloseBtn = lightbox.querySelector('.lightbox-close-btn');
-                lightboxImage.src = img.src;
-                lightbox.classList.add('visible');
-                lightbox.style.display = 'flex';
 
-                // Zamknięcie lightbox
-                const closeLightbox = () => {
-                    lightbox.classList.remove('visible');
-                    lightbox.style.display = 'none';
-                };
-                lightboxCloseBtn.onclick = closeLightbox;
-                lightbox.onclick = function(e) {
-                    if (e.target === lightbox) closeLightbox();
-                };
-                document.addEventListener('keydown', function escListener(e) {
-                    if (e.key === 'Escape') {
-                        closeLightbox();
-                        document.removeEventListener('keydown', escListener);
-                    }
-                });
-            });
-        });
-    }
-    enableLightbox('.investment-photos img');
-    enableLightbox('.pzt-image');
-    enableApartmentLightbox(); // Użyj nowej funkcji dla mieszkań
-});
-
-function enableApartmentLightbox() {
-    document.querySelectorAll('.apartment-card').forEach(card => {
-        const images = Array.from(card.querySelectorAll('.apartment-image-container img'));
-        images.forEach((img, idx) => {
-            img.style.cursor = 'zoom-in';
-            img.addEventListener('click', function() {
-                let lightbox = document.getElementById('image-lightbox');
-                if (!lightbox) {
-                    lightbox = document.createElement('div');
-                    lightbox.id = 'image-lightbox';
-                    lightbox.className = 'lightbox-overlay';
-                    lightbox.innerHTML = `
-                        <button class="lightbox-prev-btn" style="position:absolute;left:30px;top:50%;transform:translateY(-50%);font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&#10094;</button>
-                        <img id="lightbox-image" src="" alt="Powiększone zdjęcie">
-                        <button class="lightbox-next-btn" style="position:absolute;right:30px;top:50%;transform:translateY(-50%);font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&#10095;</button>
-                        <button class="lightbox-close-btn" style="position:absolute;top:20px;right:30px;font-size:2rem;background:none;border:none;color:white;cursor:pointer;">&times;</button>
-                    `;
-                    document.body.appendChild(lightbox);
-                }
-                const lightboxImage = lightbox.querySelector('#lightbox-image');
-                const lightboxCloseBtn = lightbox.querySelector('.lightbox-close-btn');
-                const lightboxPrevBtn = lightbox.querySelector('.lightbox-prev-btn');
-                const lightboxNextBtn = lightbox.querySelector('.lightbox-next-btn');
-                let currentIndex = idx;
-
+                let currentIndex = currentGallery.findIndex(item => item.src === clickedImage.src);
+                
+                // Funkcje do pokazywania i nawigacji
                 function showImage(index) {
-                    lightboxImage.src = images[index].src;
+                    currentIndex = index;
+                    lightboxImage.src = currentGallery[index].src;
+                    
+                    // Pokaż strzałki tylko, jeśli w bieżącej galerii jest więcej niż 1 zdjęcie
+                    const showNavigation = currentGallery.length > 1;
+                    prevBtn.style.display = showNavigation ? 'block' : 'none';
+                    nextBtn.style.display = showNavigation ? 'block' : 'none';
                 }
+
+                const showNextImage = () => showImage((currentIndex + 1) % currentGallery.length);
+                const showPrevImage = () => showImage((currentIndex - 1 + currentGallery.length) % currentGallery.length);
+                
+                // Ustawiamy event listenery dla strzałek TYLKO dla tej sesji lightboxa
+                prevBtn.onclick = showPrevImage;
+                nextBtn.onclick = showNextImage;
+                
+                // Obsługa klawiatury
+                function keydownHandler(e) {
+                    if (!lightbox.classList.contains('visible')) return;
+                    
+                    if (e.key === 'Escape') closeLightbox();
+                    if (currentGallery.length > 1) {
+                        if (e.key === 'ArrowRight') showNextImage();
+                        if (e.key === 'ArrowLeft') showPrevImage();
+                    }
+                }
+                
+                // Nasłuchuj klawiatury tylko, gdy lightbox jest otwarty
+                document.addEventListener('keydown', keydownHandler);
+                lightbox.addEventListener('transitionend', () => {
+                    if (!lightbox.classList.contains('visible')) {
+                        document.removeEventListener('keydown', keydownHandler);
+                    }
+                }, { once: true });
+
+
+                // Pokaż pierwsze kliknięte zdjęcie i otwórz lightbox
                 showImage(currentIndex);
-
                 lightbox.classList.add('visible');
-                lightbox.style.display = 'flex';
-
-                lightboxPrevBtn.onclick = function(e) {
-                    e.stopPropagation();
-                    currentIndex = (currentIndex - 1 + images.length) % images.length;
-                    showImage(currentIndex);
-                };
-                lightboxNextBtn.onclick = function(e) {
-                    e.stopPropagation();
-                    currentIndex = (currentIndex + 1) % images.length;
-                    showImage(currentIndex);
-                };
-
-                const closeLightbox = () => {
-                    lightbox.classList.remove('visible');
-                    lightbox.style.display = 'none';
-                };
-                lightboxCloseBtn.onclick = closeLightbox;
-                lightbox.onclick = function(e) {
-                    if (e.target === lightbox) closeLightbox();
-                };
-                document.addEventListener('keydown', function escListener(e) {
-                    if (e.key === 'Escape') {
-                        closeLightbox();
-                        document.removeEventListener('keydown', escListener);
-                    }
-                    if (e.key === 'ArrowLeft') {
-                        lightboxPrevBtn.click();
-                    }
-                    if (e.key === 'ArrowRight') {
-                        lightboxNextBtn.click();
-                    }
-                });
             });
         });
-    });
-}
+    }
+    
+    // Wywołanie wszystkich funkcji po załadowaniu strony
+    loadUnitStatusesAndButtons();
+    setupImageSwitcher();
+    initializeLightbox();
+});
