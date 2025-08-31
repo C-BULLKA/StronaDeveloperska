@@ -21,6 +21,9 @@
                     <li><a href="panel.php" class="nav-link">Panel</a></li>
                     <li><a href="#contact" class="cta-button">Kontakt</a></li>
                 </ul>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
             </nav>
         </div>
     </header>

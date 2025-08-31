@@ -44,6 +44,9 @@
                     <li><a href="panel.php">Panel Admina</a></li>
                     <li><a href="panel.php#contact" class="btn btn-accent">Kontakt</a></li>
                 </ul>
+                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
             </nav>
         </div>
     </header>

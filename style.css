@@ -1681,3 +1681,51 @@ section.visible {
 .main-photo:hover {
     transform: scale(1.02);
 }
+
+/* --- STYLE DLA MENU HAMBURGERA --- */
+.nav-toggle {
+    display: none; /* Domyślnie ukryty na dużych ekranach */
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--dark-navy);
+    cursor: pointer;
+    z-index: 1100; /* Musi być na wierzchu */
+}
+@media (max-width: 950px) {
+    /* Twoje obecne style... */
+
+    /* --- NOWE STYLE DLA MENU MOBILNEGO --- */
+    .nav-toggle {
+        display: block; /* Pokazuje przycisk hamburgera na mniejszych ekranach */
+    }
+
+    .nav-menu {
+        position: fixed; /* Pozycjonowanie względem okna przeglądarki */
+        top: 0;
+        right: -100%; /* Początkowo schowane poza ekranem */
+        width: 70%;   /* Szerokość wysuwanego menu */
+        max-width: 320px;
+        height: 100vh; /* Wysokość na cały ekran */
+        padding-top: 100px; /* Odstęp od góry */
+        
+        display: flex; /* Używamy flexboxa do ułożenia elementów */
+        flex-direction: column; /* Linki jeden pod drugim */
+        align-items: center; /* Wyśrodkowanie w poziomie */
+        gap: 2.5rem; /* Odstępy między linkami */
+
+        background-color: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(10px);
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        transition: right 0.4s ease-in-out; /* Animacja wysuwania */
+    }
+
+    /* Klasa dodawana przez JavaScript, aby pokazać menu */
+    .nav-menu.active {
+        right: 0; /* Przesuwa menu do widocznego obszaru */
+    }
+
+    .nav-link, .cta-button {
+        font-size: 1.2rem; /* Większe litery dla łatwiejszej obsługi */
+    }
+}

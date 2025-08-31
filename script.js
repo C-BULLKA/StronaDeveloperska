@@ -377,6 +377,38 @@ function updateSegmentButtons(apartmentId, statusData) {
         container.appendChild(button);
     });
 }
+const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navLinks = document.querySelectorAll('.nav-link, .cta-button');
+
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            // Pokazuje lub ukrywa menu
+            navMenu.classList.toggle('active');
+
+            // Zmienia ikonę hamburgera na "X" i z powrotem
+            const icon = navToggle.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            } else {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    }
+
+    // Zamyka menu po kliknięciu w dowolny link
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+    });
 
 // Wywołaj funkcję ładującą statusy
 loadSegmentStatuses();
