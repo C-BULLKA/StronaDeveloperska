@@ -349,8 +349,8 @@ section.visible {
 
 /* Hero Sections */
 .hero-section {
-    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/salon.png') center center/100% auto no-repeat;
-    min-height: 1000px;
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;    min-height: 60vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
