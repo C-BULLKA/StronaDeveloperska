@@ -349,13 +349,14 @@ section.visible {
 
 /* Hero Sections */
 .hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('podstawowe_zdjęcia/tlo.jpg') no-repeat center center/cover;
-    color: var(--color-light);
-    height: 100vh;
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/salon.png') center center/100% auto no-repeat;
+    min-height: 1000px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    color: white;
+    position: relative;
 }
 
 .hero-section h1 {
