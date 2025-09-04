@@ -1730,3 +1730,8 @@ section.visible {
         font-size: 1.2rem; /* Większe litery dla łatwiejszej obsługi */
     }
 }
+.logo_img {
+    height: 80px;
+    width: auto;
+    vertical-align: middle;
+}

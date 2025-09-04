@@ -12,7 +12,10 @@
 <body>
     <header class="header">
         <div class="nav-container">
-            <a href="index.html" class="logo">TarnowskiDeveloper</a>
+            <a href="index.html" class="logo">
+            <img class="logo_img" src="podstawowe_zdjęcia/logo_Tarnowski.png" alt="Logo TarnowskiDeveloper">
+                <span style="color: var(--primary-gold);">Deweloper</span>Tarnów
+            </a>
             <nav class="main-nav">
                 <ul class="nav-menu">
                     <li><a href="index.html#about" class="nav-link">O nas</a></li>
@@ -158,7 +161,11 @@
 </body>
 <footer class="footer">
         <div class="nav-container">
-            <p>&copy; 2025 TarnowskiDeveloper. Created by Piotr Cebula. Wszelkie prawa zastrzeżone.</p>
+        <p>&copy; 
+                2025 DeweloperTarnow.Created by Piotr Cebula. Wszelkie prawa zastrzeżone.
+                <br>
+                Generalni Wykonwacy <img src="podstawowe_zdjęcia/emb_logo.png" style="height: 15px;" alt="Logo EMB DEWELOPER">
+            </p>
         </div>
     </footer>
 </html>
