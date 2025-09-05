@@ -620,36 +620,36 @@ body {
         /* Responsywność */
         @media (max-width: 950px) {
             .carousel-item {
-                flex: 0 0 250px;
-                height: 120px;
+                flex: 0 0 300px;
+                height: 100px;
                 font-size: 1rem;
             }
 
             .carousel-track {
-                width: calc(250px * 10);
+                width: calc(3000px * 10);
             }
 
             @keyframes slide {
                 100% {
-                    transform: translateX(calc(-250px * 5));
+                    transform: translateX(calc(-300px * 5));
                 }
             }
         }
 
         @media (max-width: 600px) {
             .carousel-item {
-                flex: 0 0 200px;
+                flex: 0 0 300px;
                 height: 100px;
                 font-size: 0.9rem;
             }
 
             .carousel-track {
-                width: calc(200px * 10);
+                width: calc(300px * 10);
             }
 
             @keyframes slide {
                 100% {
-                    transform: translateX(calc(-200px * 5));
+                    transform: translateX(calc(-300px * 5));
                 }
             }
         }
