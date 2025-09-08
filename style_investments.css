@@ -842,3 +842,121 @@ body {
     max-height: 85%;
     object-fit: contain; /* Zachowuje proporcje obrazu */
 }
+/* ========== Style dla karuzeli etapów budowy ========== */
+.construction-stages-section {
+    padding: 4rem 2rem;
+    background-color: #f8f9fa; /* Jasne tło dla wyróżnienia sekcji */
+}
+
+.stages-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Tytuły sekcji - można użyć istniejących, jeśli pasują */
+.stages-container .section-title {
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    color: var(--dark-navy, #2c3e50);
+}
+
+.stages-container .section-subtitle {
+    margin-bottom: 2.5rem;
+    color: var(--medium-gray, #6c757d);
+    font-size: 1.1rem;
+}
+
+.stages-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden; /* Ukrywa slajdy poza widokiem */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.stages-carousel-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out; /* Płynne przejście */
+}
+
+.stage-slide {
+    flex: 0 0 100%; /* Każdy slajd zajmuje 100% szerokości */
+    position: relative;
+    aspect-ratio: 16 / 9; /* Zachowuje proporcje obrazu */
+}
+
+.stage-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.stage-slide-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+    color: #fff;
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* Przyciski nawigacyjne (strzałki) */
+.stages-carousel-nav .stages-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: #333;
+    z-index: 10;
+}
+
+.stages-carousel-nav .stages-btn:hover {
+    background: #fff;
+}
+
+.stages-carousel-nav .stages-btn.prev {
+    left: 15px;
+}
+
+.stages-carousel-nav .stages-btn.next {
+    right: 15px;
+}
+
+/* Kropki nawigacyjne */
+.stages-carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+}
+
+.stages-carousel-dots .dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0,0,0,0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.stages-carousel-dots .dot.active {
+    background: #fff;
+    transform: scale(1.2);
+}
