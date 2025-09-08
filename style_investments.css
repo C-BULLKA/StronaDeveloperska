@@ -25,37 +25,6 @@ body {
 }
 
 /* Header */
-.main-nav a {
-    position: relative;
-    font-family: var(--font-menu);
-    font-weight: 400;
-    color: var(--dark-navy);
-    text-decoration: none;
-    margin: 0 15px;
-    transition: color 0.3s ease;
-}
-
-.main-nav a:not(.btn)::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--primary-gold);
-    transition: width 0.3s ease;
-}
-
-.main-nav a:not(.btn):hover::after {
-    width: 100%;
-}
-
-.logo img {
-    height: 6.5vh;
-    width: auto;
-    vertical-align: middle;
-}
-
 .header {
     position: fixed;
     top: 0;
@@ -77,11 +46,22 @@ body {
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-family: 'Playfair Display', serif;
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
     font-weight: 600;
     color: var(--dark-navy);
     text-decoration: none;
+    white-space: nowrap;
+}
+
+.logo img {
+    height: 6.5vh;
+    width: auto;
+    max-height: 50px;
+    vertical-align: middle;
 }
 
 .nav-menu {
@@ -119,6 +99,40 @@ body {
     width: 100%;
 }
 
+.main-nav a {
+    position: relative;
+    font-family: var(--font-menu);
+    font-weight: 400;
+    color: var(--dark-navy);
+    text-decoration: none;
+    margin: 0 15px;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:not(.btn)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-gold);
+    transition: width 0.3s ease;
+}
+
+.main-nav a:not(.btn):hover::after {
+    width: 100%;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--dark-navy);
+    cursor: pointer;
+}
+
 .back-link {
     background: var(--light-gray);
     color: var(--dark-navy);
@@ -139,7 +153,7 @@ body {
 
 /* Hero Section */
 .investment-hero {
-    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;    min-height: 60vh;
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
     min-height: 60vh;
     display: flex;
     align-items: center;
@@ -592,42 +606,7 @@ body {
     margin: 0;
 }
 
-/* Responsive Design */
-@media (max-width: 950px) {
-    .investment-hero h1 {
-        font-size: 2.2rem;
-    }
-
-    .info-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-    }
-
-    .investment-photos {
-        grid-template-columns: 1fr;
-    }
-
-    .apartments-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .apartment-specs {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .apartment-actions {
-        flex-direction: column;
-    }
-
-    .nav-menu {
-        display: none;
-    }
-
-    .features-list {
-        grid-template-columns: 1fr;
-    }
-}
-
+/* Footer */
 .footer {
     background: #0f0f0f;
     color: rgba(255,255,255,0.6);
@@ -695,7 +674,8 @@ body {
     border-radius: 16px;
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
-/* --- Style dla Legendy Statusów --- */
+
+/* Style dla Legendy Statusów */
 .legend-container {
     display: flex;
     justify-content: center;
@@ -723,10 +703,10 @@ body {
     border: 1px solid rgba(0,0,0,0.1);
 }
 
-/* --- Style dla przycisków i ich statusów (powinny już istnieć w pliku CSS z "investments") --- */
+/* Style dla przycisków i ich statusów */
 .btn-segment {
     flex: 1;
-    min-width: 80px; /* Minimalna szerokość przycisku */
+    min-width: 80px;
     padding: 0.8rem;
     border: 2px solid var(--light-gray);
     background: white;
@@ -755,12 +735,7 @@ body {
     border-color: var(--danger-red);
 }
 
-
-/* ==========================================================================
-   STYLE DLA STRZAŁEK W LIGHTBOXIE (POWIĘKSZONE ZDJĘCIE)
-   ========================================================================== */
-
-/* Styl dla przycisku ZAMKNIJ (X) */
+/* Style dla strzałek w lightboxie */
 .lightbox-close-btn {
     position: absolute;
     top: 20px;
@@ -770,14 +745,13 @@ body {
     font-weight: bold;
     transition: 0.3s;
     cursor: pointer;
-    z-index: 1001; /* Musi być na samym wierzchu */
+    z-index: 1001;
 }
 
 .lightbox-close-btn:hover {
     color: #bbb;
 }
 
-/* Wspólny styl dla strzałek (lewa i prawa) */
 .lightbox-prev-btn,
 .lightbox-next-btn {
     cursor: pointer;
@@ -790,30 +764,26 @@ body {
     font-weight: bold;
     font-size: 30px;
     transition: 0.4s ease;
-    user-select: none; /* Zapobiega zaznaczaniu tekstu strzałki */
+    user-select: none;
     background-color: rgba(0, 0, 0, 0.4);
-    z-index: 1001; /* Musi być na samym wierzchu */
+    z-index: 1001;
 }
 
-/* Pozycjonowanie prawej strzałki */
 .lightbox-next-btn {
     right: 0;
-    border-radius: 5px 0 0 5px; /* Zaokrąglenie rogów */
+    border-radius: 5px 0 0 5px;
 }
 
-/* Pozycjonowanie lewej strzałki */
 .lightbox-prev-btn {
     left: 0;
-    border-radius: 0 5px 5px 0; /* Zaokrąglenie rogów */
+    border-radius: 0 5px 5px 0;
 }
 
-/* Efekt po najechaniu myszką na strzałki */
 .lightbox-prev-btn:hover,
 .lightbox-next-btn:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-/* Style dla całego okna lightboxa - możesz już je mieć, ale upewnij się */
 .lightbox-overlay {
     position: fixed;
     z-index: 1000;
@@ -825,8 +795,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* Ukrycie domyślne i animacja */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -840,12 +808,13 @@ body {
 #lightbox-image {
     max-width: 90%;
     max-height: 85%;
-    object-fit: contain; /* Zachowuje proporcje obrazu */
+    object-fit: contain;
 }
-/* ========== Style dla karuzeli etapów budowy ========== */
+
+/* Style dla karuzeli etapów budowy */
 .construction-stages-section {
     padding: 4rem 2rem;
-    background-color: #f8f9fa; /* Jasne tło dla wyróżnienia sekcji */
+    background-color: #f8f9fa;
 }
 
 .stages-container {
@@ -854,7 +823,6 @@ body {
     text-align: center;
 }
 
-/* Tytuły sekcji - można użyć istniejących, jeśli pasują */
 .stages-container .section-title {
     margin-bottom: 0.5rem;
     font-size: 2.5rem;
@@ -870,20 +838,20 @@ body {
 .stages-carousel-wrapper {
     position: relative;
     width: 100%;
-    overflow: hidden; /* Ukrywa slajdy poza widokiem */
+    overflow: hidden;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 .stages-carousel-track {
     display: flex;
-    transition: transform 0.6s ease-in-out; /* Płynne przejście */
+    transition: transform 0.6s ease-in-out;
 }
 
 .stage-slide {
-    flex: 0 0 100%; /* Każdy slajd zajmuje 100% szerokości */
+    flex: 0 0 100%;
     position: relative;
-    aspect-ratio: 16 / 9; /* Zachowuje proporcje obrazu */
+    aspect-ratio: 16 / 9;
 }
 
 .stage-slide img {
@@ -906,7 +874,6 @@ body {
     font-weight: 500;
 }
 
-/* Przyciski nawigacyjne (strzałki) */
 .stages-carousel-nav .stages-btn {
     position: absolute;
     top: 50%;
@@ -935,7 +902,6 @@ body {
     right: 15px;
 }
 
-/* Kropki nawigacyjne */
 .stages-carousel-dots {
     position: absolute;
     bottom: 20px;
@@ -959,4 +925,71 @@ body {
 .stages-carousel-dots .dot.active {
     background: #fff;
     transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 950px) {
+    .nav-menu {
+        display: none;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .investment-hero h1 {
+        font-size: 2.2rem;
+    }
+
+    .info-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .investment-photos {
+        grid-template-columns: 1fr;
+    }
+
+    .apartments-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .apartment-specs {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .apartment-actions {
+        flex-direction: column;
+    }
+
+    .features-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .logo {
+        font-size: clamp(1rem, 3.5vw, 1.4rem);
+        gap: 0.3rem;
+    }
+
+    .logo img {
+        height: 5vh;
+        max-height: 40px;
+    }
+
+    .nav-container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .logo {
+        font-size: clamp(0.9rem, 3vw, 1.2rem);
+    }
+
+    .logo img {
+        height: 4vh;
+        max-height: 35px;
+    }
 }
