@@ -159,12 +159,13 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="script.js"></script>
 </body>
-<footer class="footer">
+    <!-- Footer -->
+    <footer class="footer">
         <div class="nav-container">
-        <p>&copy; 
+            <p>&copy; 
                 2025 DeweloperTarnow.Created by Piotr Cebula. Wszelkie prawa zastrzeżone.
                 <br>
-                Generalni Wykonwacy <img src="podstawowe_zdjęcia/emb_logo.png" style="height: 15px;" alt="Logo EMB DEWELOPER">
+                Generalni Wykonwacy <img src="podstawowe_zdjęcia/emb_logo.png" style="height: 5vh;" alt="Logo EMB DEWELOPER">
             </p>
         </div>
     </footer>

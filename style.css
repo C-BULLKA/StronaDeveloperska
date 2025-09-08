@@ -1033,7 +1033,37 @@ section.visible {
     background: #0f0f0f;
     color: rgba(255,255,255,0.6);
     text-align: center;
-    padding: 2rem 0;
+    padding: 2rem 0 0; /* Tylko górny padding */
+    margin: 0;
+    min-height: 0;
+    overflow: hidden; /* Ukrywa niechciane odstępy */
+}
+
+.footer .nav-container {
+    display: block;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.footer p {
+    display: block; /* Zastąpienie inline-block dla lepszej kontroli */
+    margin: 0;
+    padding: 0;
+    line-height: 1; /* Zapobiega dodatkowym odstępom między liniami */
+}
+
+.footer img {
+    height: 5vh; /* Zachowanie inline stylu */
+    vertical-align: bottom; /* Wyrównanie spodu obrazka z linią tekstu */
+    margin: 0;
+    padding: 0;
+}
+
+.footer * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .main-footer {
