@@ -368,16 +368,29 @@ section.visible {
     color: var(--white);
 }
 
-/* Hero Sections */
-.hero-section {
+/* Hero Section */
+.hero {
     background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
     min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    color: var(--white);
+    color: white;
     position: relative;
+    padding-top: 80px; /* Dodaje odstęp od góry, aby treść nie zachodziła pod nagłówek */
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding-top: 70px; /* Mniejszy padding dla mniejszych ekranów */
+    }
+}
+
+@media (max-width: 400px) {
+    .hero {
+        padding-top: 60px; /* Jeszcze mniejszy padding dla bardzo małych ekranów */
+    }
 }
 
 .hero-section h1 {

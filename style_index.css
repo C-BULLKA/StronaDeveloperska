@@ -137,6 +137,19 @@ body {
     text-align: center;
     color: white;
     position: relative;
+    padding-top: 80px; /* Dodaje odstęp od góry, aby treść nie zachodziła pod nagłówek */
+}
+
+@media (max-width: 600px) {
+    .hero {
+        padding-top: 70px; /* Mniejszy padding dla mniejszych ekranów */
+    }
+}
+
+@media (max-width: 400px) {
+    .hero {
+        padding-top: 60px; /* Jeszcze mniejszy padding dla bardzo małych ekranów */
+    }
 }
 
 .hero-content {
