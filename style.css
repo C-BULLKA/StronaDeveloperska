@@ -243,10 +243,10 @@ section.visible {
     white-space: nowrap;
 }
 
-.logo_img {
+.logo img {
     height: 6.5vh;
     width: auto;
-    max-height: 50px;
+    max-height: 75px;
     vertical-align: middle;
 }
 

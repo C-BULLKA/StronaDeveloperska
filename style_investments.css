@@ -60,7 +60,7 @@ body {
 .logo img {
     height: 6.5vh;
     width: auto;
-    max-height: 50px;
+    max-height: 75px;
     vertical-align: middle;
 }
 
@@ -152,7 +152,7 @@ body {
 }
 
 /* Hero Section */
-.hero {
+.investment-hero {
     background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
     min-height: 60vh;
     display: flex;
@@ -161,7 +161,7 @@ body {
     text-align: center;
     color: white;
     position: relative;
-    padding-top: 80px; /* Dodaje odstęp od góry, aby treść nie zachodziła pod nagłówek */
+    padding-top: 80px;
 }
 
 @media (max-width: 600px) {
@@ -634,7 +634,7 @@ body {
     display: block;
     text-align: center;
     padding: 0;
-    margin: 0;
+    margin: 0; 
 }
 
 .footer p {
