@@ -494,10 +494,24 @@ body {
     background: #0f0f0f;
     color: rgba(255,255,255,0.6);
     text-align: center;
-    padding: 2rem 0 0; /* Tylko górny padding */
+    padding: 2rem 0 0;
     margin: 0;
     min-height: 0;
-    overflow: hidden; /* Ukrywa niechciane odstępy */
+    overflow: hidden;
+}
+
+.footer .github-link {
+    color: inherit; 
+    text-decoration: none; 
+    transition: transform 0.3s ease, font-weight 0.3s ease, color 0.3s ease;
+    display: inline-block;
+}
+
+.footer .github-link:hover {
+    color: var(--primary-gold);
+    transform: scale(1.03);
+    font-weight: 600;
+    text-decoration: none;
 }
 
 .footer .nav-container {
@@ -508,15 +522,15 @@ body {
 }
 
 .footer p {
-    display: block; /* Zastąpienie inline-block dla lepszej kontroli */
+    display: block;
     margin: 0;
     padding: 0;
-    line-height: 1; /* Zapobiega dodatkowym odstępom między liniami */
+    line-height: 1;
 }
 
 .footer img {
-    height: 5vh; /* Zachowanie inline stylu */
-    vertical-align: bottom; /* Wyrównanie spodu obrazka z linią tekstu */
+    height: 5vh;
+    vertical-align: bottom;
     margin: 0;
     padding: 0;
 }
