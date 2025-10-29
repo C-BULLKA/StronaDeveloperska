@@ -21,7 +21,6 @@
                     <li><a href="index.html#about" class="nav-link">O nas</a></li>
                     <li><a href="index.html#investments" class="nav-link">Inwestycje</a></li>
                     <li><a href="ogloszenia.php" class="nav-link">Ogłoszenia</a></li>
-                    <li><a href="panel.php" class="nav-link">Panel</a></li>
                     <li><a href="#contact" class="cta-button">Kontakt</a></li>
                 </ul>
                 <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">

@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/inc/auth_admin.php';
+if (session_status() === PHP_SESSION_NONE) session_start();
+?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -5,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administracyjny | TarnowskiDeveloper</title>
     <link rel="stylesheet" href="style.css">
+    <meta name="robots" content="noindex, nofollow">
     <style>
         .segment-status-form {
             background: #f8f9fa;
@@ -55,9 +60,7 @@
         <section class="page-header visible">
             <div class="container">
                 <h1>Panel Administracyjny</h1>
-                <?php
-                session_start();
-                if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
+                <?php if (is_admin()): ?>
                     <p>Jesteś zalogowany. Możesz zarządzać ogłoszeniami i statusami inwestycji.</p>
                     <a href="wyloguj.php" class="btn btn-secondary">Wyloguj</a>
                 <?php else: ?>
@@ -68,13 +71,14 @@
 
         <section class="visible">
             <div class="container">
-                <?php if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
+                <?php if (is_admin()): ?>
                     <div class="form-section">
                         <h2>Dodaj nowe ogłoszenie</h2>
                         <?php if(isset($_GET['success'])): ?>
                             <p class="success-message">Ogłoszenie zostało pomyślnie dodane!</p>
                         <?php endif; ?>
                         <form action="dodaj_ogloszenia.php" method="POST" enctype="multipart/form-data" class="add-listing-form">
+                            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
                             <input type="text" name="title" placeholder="Tytuł ogłoszenia" required>
                             <input type="text" name="location" placeholder="Lokalizacja, np. Tarnów" required>
                             <input type="text" name="address" placeholder="Dokładny adres, np. Rynek 1, Tarnów" required>
@@ -128,8 +132,7 @@
                 <?php endif; ?>
             </div>
             
-            <?php if (isset($_SESSION['zalogowany']) && $_SESSION['zalogowany'] === true): ?>
-            
+            <?php if (is_admin()): ?>
             <?php
             // Wczytaj wszystkie statusy z jednego pliku
             $statusFile = 'segment_status.json';
@@ -143,6 +146,7 @@
             <div class="form-section" style="margin-top: 50px; border-top: 2px solid #ddd; padding-top: 30px;">
                 <h2>Zarządzaj statusami - Osiedle Na Ścieżki</h2>
                 <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
                     <input type="hidden" name="investment" value="naSciezki">
                     <h3>Mieszkanie L1 (Parter)</h3>
                     <?php foreach(['B1', 'B2', 'B3', 'B4'] as $segment): ?>
@@ -174,6 +178,7 @@
             <div class="form-section" style="margin-top: 50px; border-top: 2px solid #ddd; padding-top: 30px;">
                 <h2>Zarządzaj statusami lokali - Osiedle Juraszki</h2>
                 <form action="zapisz_statusy.php" method="POST" class="segment-status-form">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars(generate_csrf_token()); ?>">
                     <input type="hidden" name="investment" value="juraszki">
                     <?php foreach($juraszkiStatuses as $unitId => $status): ?>
                     <div class="form-group">

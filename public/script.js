@@ -412,3 +412,48 @@ const navToggle = document.getElementById('nav-toggle');
 
 // Wywołaj funkcję ładującą statusy
 loadSegmentStatuses();
+// Helper: URL do obrazka (serweruje serve_image.php)
+function getImageUrl(folder, filename) {
+    return 'serve_image.php?file=' + encodeURIComponent(folder + '/' + filename);
+}
+
+// Pobierz listę ogłoszeń i wyrenderuj prosto do sekcji .apartments-section
+async function fetchAndRenderAds() {
+    try {
+        const res = await fetch('serve_ads.php', {cache: 'no-cache'});
+        if (!res.ok) throw new Error('Błąd pobierania ogłoszeń');
+        const ads = await res.json();
+        const container = document.querySelector('.apartments-section');
+        if (!container) return;
+        container.innerHTML = '';
+        ads.forEach(ad => {
+            const el = document.createElement('article');
+            el.className = 'apartment-card';
+            const imgHtml = (ad.images && ad.images.length) ? `<img src="${ad.images[0]}" alt="${escapeHtml(ad.title || '')}">` : '';
+            el.innerHTML = `
+                <div class="apartment-image">${imgHtml}</div>
+                <div class="apartment-info">
+                    <h3>${escapeHtml(ad.title || 'Bez tytułu')}</h3>
+                    <p class="location">${escapeHtml(ad.location || '')}</p>
+                    <p class="price">${escapeHtml(String(ad.price || ''))}</p>
+                    <a class="details-link" href="ogloszenia.php#${encodeURIComponent(ad.folder)}">Zobacz</a>
+                </div>
+            `;
+            container.appendChild(el);
+        });
+    } catch (e) {
+        console.error('fetchAndRenderAds error', e);
+    }
+}
+
+// Prosta funkcja escape
+function escapeHtml(s) {
+    return String(s || '').replace(/[&<>"']/g, function(m){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+    });
+}
+
+// Uruchom po załadowaniu DOM
+document.addEventListener('DOMContentLoaded', function(){
+    if (typeof fetchAndRenderAds === 'function') fetchAndRenderAds();
+});

@@ -5,24 +5,60 @@ if (!isset($_SESSION['zalogowany']) || $_SESSION['zalogowany'] !== true) {
     exit();
 }
 
+require_once __DIR__ . '/inc/auth_admin.php';
+require_admin();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status']) && isset($_POST['investment'])) {
+    // CSRF
+    if (!verify_csrf_token($_POST['csrf_token'] ?? null)) {
+        http_response_code(400);
+        echo 'Nieprawidłowy token CSRF';
+        exit();
+    }
+
     $statusFile = 'segment_status.json';
     $investmentKey = $_POST['investment'];
     $newStatuses = $_POST['status'];
-    
-    // Wczytaj całą aktualną zawartość pliku JSON
-    $allStatuses = [];
-    if (file_exists($statusFile)) {
-        $allStatuses = json_decode(file_get_contents($statusFile), true);
+
+    // Dozwolone inwestycje i wartości statusów
+    $allowedInvestments = ['naSciezki', 'juraszki'];
+    $allowedValues = ['available', 'reserved', 'sold'];
+
+    if (!in_array($investmentKey, $allowedInvestments, true)) {
+        http_response_code(400);
+        echo 'Nieprawidłowa inwestycja';
+        exit();
     }
 
-    // Zaktualizuj tylko klucz dla konkretnej inwestycji
-    $allStatuses[$investmentKey] = $newStatuses;
+    // Wczytaj istniejące statusy
+    $allStatuses = [];
+    if (file_exists($statusFile)) {
+        $allStatuses = json_decode(file_get_contents($statusFile), true) ?? [];
+    }
 
-    // Zapisz całą zaktualizowaną strukturę z powrotem do pliku
+    // Sanitacja nowych statusów: dopuszczalne klucze i wartości
+    $sanitized = [];
+    foreach ($newStatuses as $k => $v) {
+        if (is_array($v)) {
+            // np. struktura L1 => [B1 => value, ...]
+            $sanitized[$k] = [];
+            foreach ($v as $subk => $subv) {
+                if (in_array($subv, $allowedValues, true)) {
+                    $sanitized[$k][$subk] = $subv;
+                }
+            }
+        } else {
+            if (in_array($v, $allowedValues, true)) {
+                $sanitized[$k] = $v;
+            }
+        }
+    }
+
+    // Nadpisz tylko dany klucz
+    $allStatuses[$investmentKey] = $sanitized;
+
     file_put_contents($statusFile, json_encode($allStatuses, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-    
-    // Przekieruj z powrotem do panelu z komunikatem o sukcesie
+
     header('Location: panel.php?success_status=' . urlencode($investmentKey));
     exit();
 
@@ -30,3 +66,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status']) && isset($_
     header('Location: panel.php');
     exit();
 }
+?>

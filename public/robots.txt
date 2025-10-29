@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /panel.php
+Disallow: /weryfikacja.php
+Disallow: /dodaj_ogloszenia.php
+Disallow: /zapisz_statusy.php
+Disallow: /wyloguj.php
+# public images served via serve_image.php
