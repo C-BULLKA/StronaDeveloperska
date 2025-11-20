@@ -1,5 +1,4 @@
 <?php
-<?php
 // Zwraca listę ogłoszeń z ../uploads_ogloszenia
 $uploadsRoot = realpath(__DIR__ . '/../uploads_ogloszenia');
 if ($uploadsRoot === false || !is_dir($uploadsRoot)) {

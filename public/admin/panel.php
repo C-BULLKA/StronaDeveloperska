@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 ?>
 <!DOCTYPE html>
@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Administracyjny | TarnowskiDeveloper</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <meta name="robots" content="noindex, nofollow">
     <style>
         .segment-status-form {
@@ -40,18 +40,14 @@ if (session_status() === PHP_SESSION_NONE) session_start();
 <body>
     <header class="main-header">
         <div class="container">
-            <a href="index.html" class="logo">TarnowskiDeveloper</a>
+            <a href="../index.html" class="logo">TarnowskiDeveloper</a>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.html#about">O Inwestycji</a></li>
-                    <li><a href="index.html#location">Lokalizacja</a></li>
-                    <li><a href="ogloszenia.php">Ogłoszenia</a></li>
-                    <li><a href="panel.php">Panel Admina</a></li>
-                    <li><a href="panel.php#contact" class="btn btn-accent">Kontakt</a></li>
+                    <li><a href="../index.html#about">O Inwestycji</a></li>
+                    <li><a href="../index.html#location">Lokalizacja</a></li>
+                    <li><a href="../ogloszenia.php">Ogłoszenia</a></li>
+                    <!-- link do panelu usunąć z frontu; tu wewnątrz admina niepotrzebny -->
                 </ul>
-                <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-                <i class="fas fa-bars"></i>
-            </button>
             </nav>
         </div>
     </header>
@@ -88,33 +84,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                             <textarea name="description" placeholder="Opis nieruchomości" rows="5" required></textarea>
                             <label for="images">Zdjęcia (możesz wybrać wiele):</label>
                             <input type="file" name="images[]" id="images" multiple required>
-                            <fieldset>
-                                <legend>Wyposażenie</legend>
-                                <label><input type="checkbox" name="features[]" value="furnished" title="Mieszkanie w pełni umeblowane"> Umeblowane</label>
-                                <label><input type="checkbox" name="features[]" value="developer_condition" title="Mieszkanie gotowe do wykończenia"> Stan developerski</label>
-                                <label><input type="checkbox" name="features[]" value="internet" title="Dostęp do szybkiego internetu"> Szybki internet</label>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Lokalizacja</legend>
-                                <label><input type="checkbox" name="features[]" value="near_shops" title="W pobliżu sklepy i centra handlowe"> Blisko sklepy</label>
-                                <label><input type="checkbox" name="features[]" value="near_transport" title="Dobra komunikacja miejska"> Blisko komunikacja</label>
-                                <label><input type="checkbox" name="features[]" value="quiet" title="Spokojna i cicha okolica"> Cicha okolica</label>
-                                <label><input type="checkbox" name="features[]" value="near_schools" title="W pobliżu szkoły i przedszkola"> Blisko szkoły</label>
-                                <label><input type="checkbox" name="features[]" value="near_parks" title="W pobliżu parki i tereny zielone"> Blisko parki</label>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Udogodnienia</legend>
-                                <label><input type="checkbox" name="features[]" value="parking" title="Miejsce parkingowe w cenie"> Miejsce parkingowe</label>
-                                <label><input type="checkbox" name="features[]" value="balcony" title="Balkon lub taras"> Balkon</label>
-                                <label><input type="checkbox" name="features[]" value="elevator" title="Budynek z windą"> Winda</label>
-                                <label><input type="checkbox" name="features[]" value="gym" title="Dostęp do siłowni"> Siłownia</label>
-                                <label><input type="checkbox" name="features[]" value="pool" title="Dostęp do basenu"> Basen</label>
-                            </fieldset>
-                            <fieldset>
-                                <legend>Inne</legend>
-                                <label><input type="checkbox" name="features[]" value="pet_friendly" title="Zwierzęta są akceptowane"> Przyjazne zwierzętom</label>
-                                <label><input type="checkbox" name="features[]" value="security" title="Monitoring i ochrona"> System bezpieczeństwa</label>
-                            </fieldset>
                             <button type="submit" class="btn btn-primary">Wyślij ogłoszenie</button>
                         </form>
                     </div>
@@ -131,14 +100,11 @@ if (session_status() === PHP_SESSION_NONE) session_start();
                     </div>
                 <?php endif; ?>
             </div>
-            
+
             <?php if (is_admin()): ?>
             <?php
-            // Wczytaj wszystkie statusy z jednego pliku
-            $statusFile = 'segment_status.json';
+            $statusFile = __DIR__ . '/../../segment_status.json';
             $allStatuses = json_decode(file_get_contents($statusFile), true);
-            
-            // Przypisz statusy do odpowiednich zmiennych, z obsługą błędów
             $naSciezkiStatuses = $allStatuses['naSciezki'] ?? [];
             $juraszkiStatuses = $allStatuses['juraszki'] ?? [];
             ?>
@@ -204,6 +170,6 @@ if (session_status() === PHP_SESSION_NONE) session_start();
             <p>&copy; 2025 TarnowskiDeveloper. Created by Piotr Cebula. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 </html>

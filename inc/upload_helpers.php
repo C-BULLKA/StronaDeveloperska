@@ -4,11 +4,11 @@ function is_allowed_image_file(string $tmpPath, string $originalName): bool {
 
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime = $finfo->file($tmpPath);
-    $allowed_mime = ['image/jpeg','image/png','image/gif'];
+    $allowed_mime = ['image/jpeg','image/png','image/gif','image/webp'];
     if (!in_array($mime, $allowed_mime, true)) return false;
 
     $ext = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-    $allowed_ext = ['jpg','jpeg','png','gif'];
+    $allowed_ext = ['jpg','jpeg','png','gif','webp'];
     if (!in_array($ext, $allowed_ext, true)) return false;
 
     return true;
@@ -27,7 +27,7 @@ function save_image_upload(string $tmpPath, string $originalName, string $destDi
         throw new RuntimeException('Błąd zapisu pliku.');
     }
 
-    chmod($destPath, 0644);
+    @chmod($destPath, 0644);
     return $newName;
 }
 ?>

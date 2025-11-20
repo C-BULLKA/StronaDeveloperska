@@ -1,13 +1,12 @@
 <?php
-require_once __DIR__ . '/inc/auth_admin.php';
-require_once __DIR__ . '/inc/upload_helpers.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/upload_helpers.php';
 
 // Tylko zalogowany admin może dodawać ogłoszenia
 require_admin();
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
-    echo "Błąd: Dostęp tylko przez formularz POST.";
     exit;
 }
 
@@ -33,19 +32,16 @@ $area = (float)$_POST['area'];
 $description = trim($_POST['description'] ?? 'Brak opisu.');
 $features = isset($_POST['features']) ? array_map('trim', (array)$_POST['features']) : [];
 
-$sanitizedTitle = preg_replace('/[^a-zA-Z0-9-_]/', '_', substr($title, 0, 50));
-$folderName = 'ad_' . time() . '_' . $sanitizedTitle;
+$folderName = 'ad_' . time() . '_' . preg_replace('/[^a-zA-Z0-9-_]/', '_', substr($title, 0, 50));
 
-// Uploads poza public - katalog: d:\Bazy\github\uploads_ogloszenia
-$uploadRoot = __DIR__ . '/../uploads_ogloszenia';
+// uploads poza public
+$uploadRoot = realpath(__DIR__ . '/../../uploads_ogloszenia') ?: (__DIR__ . '/../../uploads_ogloszenia');
 $adDirectory = $uploadRoot . '/' . $folderName;
 
-if (!is_dir($adDirectory)) {
-    if (!mkdir($adDirectory, 0750, true)) {
-        http_response_code(500);
-        echo "Nie można utworzyć katalogu ogłoszenia.";
-        exit;
-    }
+if (!is_dir($adDirectory) && !mkdir($adDirectory, 0750, true)) {
+    http_response_code(500);
+    echo "Nie można utworzyć katalogu ogłoszenia.";
+    exit;
 }
 
 // Zapis danych jako JSON

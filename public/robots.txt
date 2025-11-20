@@ -1,7 +1,7 @@
 User-agent: *
-Disallow: /panel.php
-Disallow: /weryfikacja.php
-Disallow: /dodaj_ogloszenia.php
-Disallow: /zapisz_statusy.php
-Disallow: /wyloguj.php
-# public images served via serve_image.php
+Disallow: /admin/
+Disallow: /admin/panel.php
+Disallow: /admin/weryfikacja.php
+Disallow: /admin/dodaj_ogloszenia.php
+Disallow: /admin/zapisz_statusy.php
+Disallow: /admin/wyloguj.php

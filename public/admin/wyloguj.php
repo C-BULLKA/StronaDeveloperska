@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../inc/auth_admin.php';
 if (session_status() === PHP_SESSION_NONE) session_start();
 $_SESSION = [];
 if (ini_get("session.use_cookies")) {
@@ -9,6 +10,6 @@ if (ini_get("session.use_cookies")) {
     );
 }
 session_destroy();
-header('Location: index.html');
+header('Location: ../index.html');
 exit;
 ?>

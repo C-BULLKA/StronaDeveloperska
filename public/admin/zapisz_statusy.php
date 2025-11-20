@@ -5,7 +5,7 @@ if (!isset($_SESSION['zalogowany']) || $_SESSION['zalogowany'] !== true) {
     exit();
 }
 
-require_once __DIR__ . '/inc/auth_admin.php';
+require_once __DIR__ . '/../../inc/auth_admin.php';
 require_admin();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status']) && isset($_POST['investment'])) {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['status']) && isset($_
         exit();
     }
 
-    $statusFile = 'segment_status.json';
+    $statusFile = __DIR__ . '/../../segment_status.json';
     $investmentKey = $_POST['investment'];
     $newStatuses = $_POST['status'];
 
