@@ -8,19 +8,25 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// Smooth scrolling for navigation links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+// Smooth scrolling for navigation links (account for fixed header)
+const anchorNodes = document.querySelectorAll('a[href^="#"]');
+if (anchorNodes && anchorNodes.length) {
+    anchorNodes.forEach(anchor => {
+        if (!anchor) return;
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return;
+            const target = document.querySelector(href);
+            if (!target) return;
+            e.preventDefault();
+            // compute offset to avoid header overlap
+            const header = document.getElementById('header') || document.querySelector('.header');
+            const headerHeight = header ? header.getBoundingClientRect().height : 0;
+            const targetY = window.scrollY + target.getBoundingClientRect().top - Math.ceil(headerHeight) - 10; // small gap
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+        });
     });
-});
+}
 
 // Animation on scroll
 const observerOptions = {
@@ -46,18 +52,23 @@ document.querySelectorAll('.fade-in-up').forEach(el => {
 });
 
 // Form submission
-document.querySelector('.contact-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.');
-    this.reset();
-});
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Dziękujemy za wiadomość! Skontaktujemy się z Tobą wkrótce.');
+        this.reset();
+    });
+}
 // Karuzela inwestycji
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".carousel").forEach(carousel => {
         const track = carousel.querySelector(".carousel-track");
+        if (!track) return; // nothing to do
         const prevBtn = carousel.querySelector(".carousel-btn.prev");
         const nextBtn = carousel.querySelector(".carousel-btn.next");
-        const slides = Array.from(track.children);
+        const slides = Array.from(track.children || []);
+        if (!slides.length) return; // no slides, skip
         let currentIndex = 0; 
 
         function slidesPerView() {
@@ -67,23 +78,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         function updateCarousel() {
+            if (!slides[0]) return;
             const slideWidth = slides[0].getBoundingClientRect().width + 16; // +margin
             track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
         }
 
-        nextBtn.addEventListener("click", () => {
-            if (currentIndex < slides.length - slidesPerView()) {
-                currentIndex++;
-                updateCarousel();
-            }
-        });
+        if (nextBtn) {
+            nextBtn.addEventListener("click", () => {
+                if (currentIndex < slides.length - slidesPerView()) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            });
+        }
 
-        prevBtn.addEventListener("click", () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateCarousel();
-            }
-        });
+        if (prevBtn) {
+            prevBtn.addEventListener("click", () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            });
+        }
 
         window.addEventListener("resize", updateCarousel);
         updateCarousel();

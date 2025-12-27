@@ -4,7 +4,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    z-index: 1001;
+    z-index: 99999; /* ensure clickable above overlays */
     color: inherit;
 }
 
@@ -26,15 +26,24 @@
         padding-top: 5rem;
         background: white;
         box-shadow: -4px 0 15px rgba(0,0,0,0.1);
-        transition: right 0.3s ease-in-out;
-        z-index: 1000;
+        transition: right 0.3s ease-in-out, visibility 0s linear 0.3s;
+        z-index: 99998; /* above header; active menu will be highest */
+        visibility: hidden;
     }
 
     .nav-menu.active {
         right: 0;
+        visibility: visible;
+        transition-delay: 0s;
+        z-index: 99999;
     }
 
     .nav-menu li {
         margin: 1rem 0;
+    }
+
+    /* Prevent background scroll when menu open */
+    body.nav-open {
+        overflow: hidden;
     }
 }

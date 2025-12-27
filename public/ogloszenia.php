@@ -15,7 +15,7 @@
     <header class="header">
         <div class="nav-container">
             <a href="index.html" class="logo">
-            <img class="logo_img" src="podstawowe_zdjęcia/logo_Tarnowski.png" alt="Logo TarnowskiDeveloper">
+            <img class="logo_img" src="../podstawowe_zdjęcia/logo_Tarnowski.png" alt="Logo TarnowskiDeveloper">
                 <span style="color: var(--primary-gold);">Deweloper</span>Tarnów
             </a>
             <nav class="main-nav">
@@ -169,7 +169,7 @@
             <p>&copy; 
                 2025 DeweloperTarnow.Created by  <a href="https://github.com/C-BULLKA" target="_blank" class="github-link">Piotr Cebula</a>. Wszelkie prawa zastrzeżone.
                 <br>
-                Generalni Wykonwacy <img src="podstawowe_zdjęcia/emb_logo.png" style="height: 5vh;" alt="Logo EMB DEWELOPER">
+                Generalni Wykonwacy <img src="../podstawowe_zdjęcia/emb_logo.png" style="height: 5vh;" alt="Logo EMB DEWELOPER">
             </p>
         </div>
     </footer>

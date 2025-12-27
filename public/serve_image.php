@@ -10,8 +10,19 @@ $requested = $_GET['file'];
 $requested = str_replace(['..', '\\'], '', $requested);
 $requested = ltrim($requested, '/\\');
 
-$baseDir = realpath(__DIR__ . '/../uploads_ogloszenia');
-if ($baseDir === false) { http_response_code(500); exit; }
+// Try multiple base dirs (public/uploads_ogloszenia, public/ogloszenia, ../ogloszenia, ../uploads_ogloszenia)
+$cands = [
+    __DIR__ . '/uploads_ogloszenia',
+    __DIR__ . '/ogloszenia',
+    __DIR__ . '/../ogloszenia',
+    __DIR__ . '/../uploads_ogloszenia'
+];
+$baseDir = false;
+foreach ($cands as $c) {
+    $r = realpath($c);
+    if ($r !== false && is_dir($r)) { $baseDir = $r; break; }
+}
+if ($baseDir === false) { http_response_code(404); exit; }
 
 // Rozdziel podkatalog i nazwę pliku
 $parts = explode('/', $requested, 2);

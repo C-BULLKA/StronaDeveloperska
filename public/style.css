@@ -222,7 +222,7 @@ section.visible {
 /* Navigation */
 .nav-container {
     max-width: 1400px;
-    margin: 0 auto;
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('../podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
     padding: 0 2rem;
     display: flex;
     justify-content: space-between;
@@ -371,7 +371,7 @@ section.visible {
 
 /* Hero Section */
 .hero {
-    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), src="./podstawowe_zdjęcia/logo_Tarnowski.png" center center/cover no-repeat;
     min-height: 60vh;
     display: flex;
     align-items: center;
