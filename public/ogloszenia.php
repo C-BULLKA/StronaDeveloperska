@@ -1,5 +1,4 @@
 <?php
-// Prosta strona, która wyświetla listę ogłoszeń pobranych z serve_ads.php (klientowo)
 ?>
 <!DOCTYPE html>
 <html lang="pl">
