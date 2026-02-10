@@ -1,23 +1,20 @@
 // ========== Logika dla karuzeli etapów budowy ==========
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Konfiguracja dla karuzeli. 
-    // Aby zmienić etapy na innej podstronie, wystarczy zmodyfikować tę tablicę.
     const stagesData = [
         { 
-            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap1.jpg", // Zmień na właściwą ścieżkę
+            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap1.jpg",
             caption: "Styczeń 2025 - Przygotowanie terenu i prace ziemne"
         },
         { 
-            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap2.jpg", // Zmień na właściwą ścieżkę
+            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap2.jpg",
             caption: "Marzec 2025 - Wykonanie fundamentów" 
         },
         { 
-            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap3.jpg", // Zmień na właściwą ścieżkę
+            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap3.jpg",
             caption: "Czerwiec 2025 - Stan surowy otwarty" 
         },
         { 
-            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap4.jpg", // Zmień na właściwą ścieżkę
+            image: "podstawowe_zdjęcia/Sciezka/Etapy/etap4.jpg",
             caption: "Wrzesień 2025 - Montaż okien i dachu" 
         }
     ];

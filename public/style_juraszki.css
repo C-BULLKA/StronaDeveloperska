@@ -181,6 +181,25 @@ body {
     margin: 0 auto;
     padding: 0 2rem;
 }
+.hero-content {
+    max-width: 800px;
+    padding: 0 2rem;
+    animation: fadeInUp 1s ease-out;
+    margin-top: 19px;
+    margin-bottom: 13px;
+}
+
+.investment-hero {
+    background: linear-gradient(135deg, rgba(26,26,26,0.7), rgba(184,115,51,0.3)), url('podstawowe_zdjęcia/kawalerka.png') center center/cover no-repeat;
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    position: relative;
+    padding-top: 80px;
+}
 
 .investment-hero h1 {
     font-family: 'Playfair Display', serif;

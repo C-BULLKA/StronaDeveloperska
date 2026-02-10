@@ -1,26 +1,28 @@
-document.addEventListener("DOMContentLoaded", function () {
-    console.log('menu.js: DOMContentLoaded');
-    const navToggle = document.getElementById("nav-toggle");
-    const navMenu = document.getElementById("nav-menu");
+document.addEventListener('DOMContentLoaded', () => {
+    const navToggle = document.getElementById('nav-toggle');
+    const navMenu = document.getElementById('nav-menu');
 
     if (navToggle && navMenu) {
-        console.log('menu.js: found navToggle and navMenu');
-        // Toggle menu visibility and ARIA
-        navToggle.addEventListener("click", () => {
-            console.log('menu.js: navToggle clicked');
-            const isActive = navMenu.classList.toggle("active");
-            navToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-            // Prevent body scrolling when menu open
-            document.body.classList.toggle('nav-open', isActive);
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            
+            // Animacja ikony hamburgera
+            const icon = navToggle.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
+            }
         });
 
-        // Close menu when a link inside it is clicked (mobile behaviour)
-        navMenu.querySelectorAll('a').forEach(link => {
+        // Zamykanie menu po kliknięciu w link (ważne na mobile)
+        const navLinks = navMenu.querySelectorAll('a');
+        navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                if (navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                    navToggle.setAttribute('aria-expanded', 'false');
-                    document.body.classList.remove('nav-open');
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.add('fa-bars');
+                    icon.classList.remove('fa-times');
                 }
             });
         });

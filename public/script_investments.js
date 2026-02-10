@@ -37,17 +37,23 @@ document.addEventListener('DOMContentLoaded', function() {
         const nextBtn = card.querySelector('.next-btn');
         let currentIndex = 0;
 
-        prevBtn.addEventListener('click', () => {
-            images[currentIndex].classList.add('hidden');
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            images[currentIndex].classList.remove('hidden');
-        });
+        if (!images || images.length === 0) return;
 
-        nextBtn.addEventListener('click', () => {
-            images[currentIndex].classList.add('hidden');
-            currentIndex = (currentIndex + 1) % images.length;
-            images[currentIndex].classList.remove('hidden');
-        });
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                images[currentIndex].classList.add('hidden');
+                currentIndex = (currentIndex - 1 + images.length) % images.length;
+                images[currentIndex].classList.remove('hidden');
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                images[currentIndex].classList.add('hidden');
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.remove('hidden');
+            });
+        }
     });
 
     // Funkcja ładująca statusy segmentów i generująca przyciski

@@ -175,7 +175,13 @@ body {
         padding-top: 60px; /* Jeszcze mniejszy padding dla bardzo małych ekranów */
     }
 }
-
+.hero-content {
+    max-width: 800px;
+    padding: 0 2rem;
+    animation: fadeInUp 1s ease-out;
+    margin-top: 19px;
+    margin-bottom: 13px;
+}
 .hero-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -377,11 +383,14 @@ body {
 }
 
 /* Apartments Grid */
+/* --- POCZĄTEK ZMIAN: Apartments Grid (Widok listy - pełna szerokość) --- */
+
 .apartments-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: 1fr; /* Tylko jedna kolumna (jeden pod drugim) */
     gap: 2rem;
+    max-width: 1200px; /* Opcjonalnie: ograniczenie szerokości listy */
+    margin: 0 auto;
 }
 
 .apartment-card {
@@ -392,12 +401,60 @@ body {
     transition: all 0.3s ease;
     position: relative;
     width: 100%;
-    max-width: 450px;
+    max-width: 100%; /* ZMIANA: Usuwamy ograniczenie 450px, teraz zajmuje całość */
+    
+    /* ZMIANA: Układ poziomy (Obrazek po lewej, Treść po prawej) */
+    display: grid;
+    grid-template-columns: 45% 55%; 
 }
 
 .apartment-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-medium);
+}
+
+.apartment-image-container {
+    height: 100%; /* ZMIANA: Rozciągnij na pełną wysokość karty */
+    min-height: 320px; /* Minimalna wysokość, żeby zdjęcie było duże */
+    position: relative;
+    overflow: hidden;
+}
+
+.apartment-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.apartment-content {
+    padding: 2rem; /* Większy padding dla lepszego wyglądu */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Wyśrodkowanie treści w pionie */
+}
+
+/* Dostosowanie specyfikacji, żeby ładnie wyglądały w poziomie */
+.apartment-specs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    margin-top: 1rem;
+}
+
+/* --- Responsywność: Na tabletach i telefonach wracamy do pionu --- */
+@media (max-width: 900px) {
+    .apartment-card {
+        grid-template-columns: 1fr; /* Zmiana na jedną kolumnę */
+        max-width: 500px; /* Przywracamy ograniczenie szerokości na mobile */
+        margin: 0 auto; /* Wyśrodkowanie */
+        display: block; /* Powrót do standardowego blokowego wyświetlania */
+    }
+
+    .apartment-image-container {
+        height: 250px; /* Stała wysokość zdjęcia na telefonie */
+    }
 }
 
 .apartment-image-container {

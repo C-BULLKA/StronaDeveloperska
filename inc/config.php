@@ -1,5 +1,4 @@
 <?php
-<?php
 // Przechowuje hash hasła admina poza public.
 // Przy pierwszym uruchomieniu zapisze domyślny hash dla 'admin' do inc/admin_pass.hash.
 // Zmodyfikuj zawartość inc/admin_pass.hash, by ustawić własne hasło:
