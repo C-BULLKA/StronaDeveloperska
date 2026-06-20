@@ -22,11 +22,6 @@ body {
     overflow-x: hidden;
 }
 
-.hero-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-}
 /* Header */
 .header {
     position: fixed;
@@ -161,8 +156,6 @@ body {
     max-width: 800px;
     padding: 0 2rem;
     animation: fadeInUp 1s ease-out;
-    margin-top: 19px;
-    margin-bottom: 13px;
 }
 
 .hero h1 {
